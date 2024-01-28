@@ -1,5 +1,6 @@
 'use client'
 import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export default function InicioSesionPage() {
@@ -43,6 +44,18 @@ export default function InicioSesionPage() {
                 <EyeClosedIcon size={24} className='fill-gray-700' />
               )}
             </button>
+          </div>
+          <div className='flex flex-row w-full justify-between'>
+            <Link href={'/crear-cuenta'}>
+              <span className='text-left text-[12px] pl-[15px] text-gray-600'>
+                Crear Cuenta
+              </span>
+            </Link>
+            <Link href={'/'}>
+              <span className='text-right text-[12px] pr-[15px] text-gray-600'>
+                Recuperar contraseña
+              </span>
+            </Link>
           </div>
           <button className='mt-[20px] shadow-md shadow-gray-400 w-full px-[15px] py-[20px] cursor-pointer font-semibold rounded-[20px] focus:shadow-inner focus:bg-gradient-to-br focus:from-gray-50 focus:to-white'>
             Iniciar sesión
