@@ -23,7 +23,7 @@ export const Navbar = () => {
         <span>Presencial</span>
       </Link>
       <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
-      <Link className='mr-2 text-black flex items-center ' href={'/enlinea'}>
+      <Link className='mr-2 text-black flex items-center ' href={'/en-linea'}>
         <span>Conecta</span>
       </Link>
       <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
