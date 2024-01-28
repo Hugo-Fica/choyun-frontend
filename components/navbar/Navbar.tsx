@@ -1,37 +1,52 @@
+import { PersonIcon, SearchIcon } from '@primer/octicons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export const Navbar = () => {
   return (
-    <nav className='flex bg-white p-2 m-2 rounded '>
-      <Link href={'/'} className=''>
+    <nav className='flex bg-white  rounded px-[200px] items-center'>
+      <Link href={'/'} className='flex items-center '>
         <Image
-          className='w-auto'
+          className='w-auto pb-[10px]'
           src='/assets/logo_choyun-1.png'
           alt='logo-choyun'
           width={70}
           height={70}
         />
       </Link>
-      <div className='flex flex-1'></div>
-      <Link className='mr-2 text-black' href={'/somos'}>
-        Somos
+      <div className='flex flex-1 '></div>
+      <Link className='mr-2 text-black flex items-center' href={'/somos'}>
+        <span>Somos</span>
       </Link>
-      <Link className='mr-2 text-black' href={'/presencial'}>
-        Presencial
+      <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
+      <Link className='mr-2 text-black flex items-center ' href={'/presencial'}>
+        <span>Presencial</span>
       </Link>
-      <Link className='mr-2 text-black' href={'/enlinea'}>
-        Conecta
+      <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
+      <Link className='mr-2 text-black flex items-center ' href={'/enlinea'}>
+        <span>Conecta</span>
       </Link>
-      <Link className='mr-2 text-black' href={'/prensa'}>
-        Prensa
+      <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
+      <Link className='mr-2 text-black flex items-center ' href={'/prensa'}>
+        <span>Prensa</span>
       </Link>
-      <Link className='mr-2 text-black' href={'/'}>
-        Publicaiones
+      <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
+
+      <Link className='mr-2 text-black flex items-center ' href={'/'}>
+        <span>Publicaiones</span>
       </Link>
-      <Link className='mr-2 text-black' href={'/'}>
-        Quiero ayudar
+      <div className='border-l-[1px] border-black mx-[16px] h-[25px]' />
+      <Link className='mr-2 text-black flex items-center ' href={'/'}>
+        <span>Quiero ayudar</span>
       </Link>
+      <div className='flex items-center'>
+        <SearchIcon size={24} className='fill-black mx-[16px]' />
+      </div>
+      <div className='flex items-center'>
+        <PersonIcon size={24} className='fill-black' />
+      </div>
+      <div className='border-l-[1px] border-black mx-[16px] h-[80px]' />
+      <span className='text-black'>logos redes sociales</span>
     </nav>
   )
 }
