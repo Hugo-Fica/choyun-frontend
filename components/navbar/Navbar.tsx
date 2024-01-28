@@ -42,9 +42,9 @@ export const Navbar = () => {
       <div className='flex items-center'>
         <SearchIcon size={24} className='fill-black mx-[16px]' />
       </div>
-      <div className='flex items-center'>
+      <Link href={'/inicio-sesion'} className='flex items-center'>
         <PersonIcon size={24} className='fill-black' />
-      </div>
+      </Link>
       <div className='border-l-[1px] border-black mx-[16px] h-[80px]' />
       <span className='text-black'>logos redes sociales</span>
     </nav>
