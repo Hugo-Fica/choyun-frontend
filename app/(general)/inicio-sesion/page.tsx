@@ -1,7 +1,7 @@
 'use client'
-import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react'
-import Link from 'next/link'
 import { useState } from 'react'
+import Link from 'next/link'
+import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react'
 
 export default function InicioSesionPage() {
   const [pass, setPass] = useState(true)
