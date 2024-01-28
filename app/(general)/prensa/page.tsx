@@ -3,5 +3,5 @@ export default function PrensaPage() {
     <>
       <h1>Prensa</h1>
     </>
-  );
+  )
 }
