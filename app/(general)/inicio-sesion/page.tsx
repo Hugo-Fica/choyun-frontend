@@ -1,15 +1,7 @@
-'use client'
-import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { InputPass } from '@/components/input-pass/InputPass'
 
 export default function InicioSesionPage() {
-  const [pass, setPass] = useState(true)
-
-  const verPass = () => {
-    setPass(!pass)
-  }
-
   return (
     <>
       <div
@@ -26,25 +18,7 @@ export default function InicioSesionPage() {
             className='border-none outline-none bg-transparent rounded-[10px] text-[1em] w-full px-[20px] py-[20px] pl-[40px] shadow-inner bg-gradient-to-br from-gray-50 to-white'
             placeholder='Correo'
           />
-          <div className='relative'>
-            <input
-              type={pass ? 'password' : 'text'}
-              className='border-none outline-none bg-transparent rounded-[10px] text-[1em] w-full px-[20px] py-[20px] pl-[40px] shadow-inner bg-gradient-to-br from-gray-50 to-white'
-              placeholder='Contraseña'
-            />
-
-            <button
-              type='button'
-              onClick={verPass}
-              className='absolute right-0 translate-y-[20px] -translate-x-[20px]'
-            >
-              {pass ? (
-                <EyeIcon size={24} className='fill-gray-700' />
-              ) : (
-                <EyeClosedIcon size={24} className='fill-gray-700' />
-              )}
-            </button>
-          </div>
+          <InputPass />
           <div className='flex flex-row w-full justify-between'>
             <Link href={'/crear-cuenta'}>
               <span className='text-left text-[12px] pl-[15px] text-gray-600'>
