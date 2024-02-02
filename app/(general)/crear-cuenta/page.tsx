@@ -1,10 +1,10 @@
+import { InputPass } from '@/components'
 import Link from 'next/link'
-import { InputPass } from '@/components/input-pass/InputPass'
 export default function CrearCuenta() {
   return (
     <>
       <div
-        className='flex items-center justify-center h-full  flex-col w-[680px] px-[50px] py-[50px] pb-[50px] shadow-md shadow-gray-400 rounded-[20px]
+        className='flex transition-all items-center justify-center h-full  flex-col w-[680px] px-[50px] py-[50px] pb-[50px] shadow-md shadow-gray-400 rounded-[20px]
       gap-[20px]
       '
       >
