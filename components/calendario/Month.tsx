@@ -1,17 +1,17 @@
 import dayjs from 'dayjs'
 import { Fragment } from 'react'
 import { Days } from '..'
-
+import 'dayjs/locale/es'
 interface Props {
   month: dayjs.Dayjs[][]
 }
 export const Month = ({ month }: Props) => {
   return (
-    <div className='grid flex-1 grid-cols-7 grid-rows-5'>
+    <div className='grid grid-cols-7 grid-rows-5 w-[900px] h-[600px]'>
       {month.map((row, i) => (
         <Fragment key={i}>
           {row.map((day, idx) => (
-            <Days day={day} key={idx} rowIdx={i} />
+            <Days day={day.locale('es')} key={idx} rowIdx={i} />
           ))}
         </Fragment>
       ))}
