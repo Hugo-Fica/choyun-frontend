@@ -12,7 +12,7 @@ type LinkType = {
 };
 
 const links: LinkType[] = [
-  { path: '/somos', text: 'Somos' },
+  { path: '/somos', text: 'Sobre Nosotros' },
   { path: '/presencial', text: 'Presencial' },
   { path: '/en-linea', text: 'Conecta' },
   { path: '/prensa', text: 'Prensa' },
