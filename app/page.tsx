@@ -8,9 +8,9 @@ export default function Home() {
           'https://drive.google.com/uc?export=view&id=1E0gFkqUW2mDrGoZ0GCxOv9njBR6mNXc6'
         }
         alt='FONDO-FUNDACIÓN'
-        width={800}
-        height={700}
-        className='w-[80%] h-[50%]'
+        width={1920}
+        height={1080}
+        className='w-[70%] h-[40%]'
       />
       <article className='grid grid-cols-2 gap-x-6 mt-9 px-28'>
         <div>
