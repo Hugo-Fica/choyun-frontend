@@ -2,6 +2,7 @@ import { PersonIcon, SearchIcon } from '@primer/octicons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { NavLink } from '..'
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa' // Importa los iconos de redes sociales
 
 const links = [
   { path: '/somos', text: 'Somos' },
@@ -11,6 +12,7 @@ const links = [
   { path: '/', text: 'Publicaciones' },
   { path: '/', text: 'Quiero ayudar' },
 ]
+
 export const Navbar = () => {
   return (
     <nav className='flex bg-white px-[300px] items-center fixed top-0 w-full z-10'>
@@ -36,7 +38,19 @@ export const Navbar = () => {
         <PersonIcon size={24} className='fill-black' />
       </Link>
       <div className='border-l-[1px] border-black mx-[16px] h-[80px] border-opacity-30' />
-      <span className='text-black'>logos redes sociales</span>
+
+      {/* Aquí están los iconos de redes sociales */}
+      <div className='flex space-x-4'>
+        <Link href='https://web.facebook.com/fundacionchoyun?locale=es_LA' aria-label='Facebook'>
+          <FaFacebook size={24} className='text-black' />
+        </Link>
+        <Link href='https://www.youtube.com/@fundacionchoyun6663' aria-label='Twitter'>
+          <FaYoutube size={24} className='text-black' />
+        </Link>
+        <Link href='https://www.instagram.com/fundacion.choyun/?hl=es' aria-label='Instagram'>
+          <FaInstagram size={24} className='text-black' />
+        </Link>
+      </div>
     </nav>
   )
 }
