@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from 'react';
 import { PersonIcon, SearchIcon } from '@primer/octicons-react';
 import Image from 'next/image';
@@ -12,16 +11,21 @@ type LinkType = {
 };
 
 const links: LinkType[] = [
-  { path: '/somos', text: 'Sobre Nosotros' },
-  { path: '/presencial', text: 'Lo que valoro - Filosofía y visión' },
-  { path: '/en-linea', text: 'Contenido educativo – blog' },
-  { path: '/prensa', text: 'Biblioteca libre' },
-  { path: '/', text: 'Donaciones' },
-  { path: '/', text: 'Contáctenos' },
+  { path: '/somos', text: 'Somos' },
+  { path: '/presencial', text: 'Presencial' },
+  { path: '/en-linea', text: 'Conecta' },
+  { path: '/prensa', text: 'Prensa' },
+  { path: '/', text: 'Publicaciones' },
+  { path: '/', text: 'Quiero ayudar' },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Función para manejar el cierre del menú cuando se selecciona un enlace
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   return (
     <nav className='bg-white px-2 sm:px-4 lg:px-12 fixed top-0 w-full z-10 shadow-md'>
@@ -29,12 +33,11 @@ export const Navbar = () => {
         <Link href={'/'} className='flex items-center' legacyBehavior>
           <a>
             <Image
-              className='w-auto pb-[20px]'
+              className='w-auto pb-[10px]'
               src='/assets/logo_choyun-1.png'
               alt='logo-choyun'
               width={100}
               height={100}
-              // className='sm:w-50 sm:h-50 lg:w-70 lg:h-70'
             />
           </a>
         </Link>
@@ -46,10 +49,12 @@ export const Navbar = () => {
             <FaBars size={24} />
           </button>
         </div>
-        <div className='hidden lg:flex lg:items-center lg:space-x-4'>
+        <div className={`hidden lg:flex lg:items-center lg:space-x-4`}>
           {links.map((link: LinkType) => (
             <Link href={link.path} key={link.text} legacyBehavior>
-              <a className="text-black hover:text-gray-700 text-sm lg:text-base">{link.text}</a>
+              <a className="text-black hover:text-gray-700 text-sm lg:text-base">
+                {link.text}
+              </a>
             </Link>
           ))}
           <div className='flex items-center'>
@@ -79,36 +84,37 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
-      {/* Menú desplegable para móviles */}
       {isOpen && (
         <div className='lg:hidden'>
           <div className='flex flex-col space-y-1 px-2 pt-2 pb-3'>
             {links.map((link: LinkType) => (
               <Link href={link.path} key={link.text} legacyBehavior>
-                <a className="text-black hover:text-gray-700 text-sm">{link.text}</a>
+                <a onClick={handleLinkClick} className="text-black hover:text-gray-700 text-sm">
+                  {link.text}
+                </a>
               </Link>
             ))}
             <div className='flex items-center justify-between mt-2'>
               <SearchIcon size={20} className='fill-black mx-2' />
               <Link href={'/inicio-sesion'} className='flex items-center' legacyBehavior>
-                <a>
+                <a onClick={handleLinkClick}>
                   <PersonIcon size={20} className='fill-black' />
                 </a>
               </Link>
             </div>
             <div className='flex space-x-2 mt-4'>
               <Link href='https://web.facebook.com/fundacionchoyun?locale=es_LA' aria-label='Facebook' legacyBehavior>
-                <a>
+                <a onClick={handleLinkClick}>
                   <FaFacebook size={20} className='text-black' />
                 </a>
               </Link>
               <Link href='https://www.youtube.com/@fundacionchoyun6663' aria-label='YouTube' legacyBehavior>
-                <a>
+                <a onClick={handleLinkClick}>
                   <FaYoutube size={20} className='text-black' />
                 </a>
               </Link>
               <Link href='https://www.instagram.com/fundacion.choyun/?hl=es' aria-label='Instagram' legacyBehavior>
-                <a>
+                <a onClick={handleLinkClick}>
                   <FaInstagram size={20} className='text-black' />
                 </a>
               </Link>
