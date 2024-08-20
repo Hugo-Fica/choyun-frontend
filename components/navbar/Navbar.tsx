@@ -2,15 +2,16 @@ import { PersonIcon, SearchIcon } from '@primer/octicons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { NavLink } from '..'
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa' // Importa los iconos de redes sociales
+import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 
+// TODO: ir modificando esto
 const links = [
-  { path: '/somos', text: 'Somos' },
-  { path: '/presencial', text: 'Presencial' },
-  { path: '/en-linea', text: 'Conecta' },
-  { path: '/prensa', text: 'Prensa' },
-  { path: '/', text: 'Publicaciones' },
-  { path: '/', text: 'Quiero ayudar' },
+  // { path: '/somos', text: 'Somos' },
+  // { path: '/presencial', text: 'Presencial' },
+  // { path: '/en-linea', text: 'Conecta' },
+  // { path: '/prensa', text: 'Prensa' },
+  // { path: '/', text: 'Publicaciones' },
+  // { path: '/', text: 'Quiero ayudar' },
 ]
 
 export const Navbar = () => {
@@ -26,28 +27,37 @@ export const Navbar = () => {
         />
       </Link>
       <div className='flex flex-1 '></div>
-      {links.map((link) => (
+      {/* {links.map((link) => (
         <NavLink key={link.text} {...link} />
-      ))}
-      <div className='flex items-center'>
+      ))} */}
+      {/* <div className='flex items-center'>
         <SearchIcon size={24} className='fill-black mx-[16px]' />
       </div>
       <div className='border-l-[1px] border-black mx-[16px] h-[25px] border-opacity-30' />
 
       <Link href={'/inicio-sesion'} className='flex items-center'>
         <PersonIcon size={24} className='fill-black' />
-      </Link>
+      </Link> */}
       <div className='border-l-[1px] border-black mx-[16px] h-[80px] border-opacity-30' />
 
       {/* Aquí están los iconos de redes sociales */}
       <div className='flex space-x-4'>
-        <Link href='https://web.facebook.com/fundacionchoyun?locale=es_LA' aria-label='Facebook'>
+        <Link
+          href='https://web.facebook.com/fundacionchoyun?locale=es_LA'
+          aria-label='Facebook'
+        >
           <FaFacebook size={24} className='text-black' />
         </Link>
-        <Link href='https://www.youtube.com/@fundacionchoyun6663' aria-label='Twitter'>
+        <Link
+          href='https://www.youtube.com/@fundacionchoyun6663'
+          aria-label='Twitter'
+        >
           <FaYoutube size={24} className='text-black' />
         </Link>
-        <Link href='https://www.instagram.com/fundacion.choyun/?hl=es' aria-label='Instagram'>
+        <Link
+          href='https://www.instagram.com/fundacion.choyun/?hl=es'
+          aria-label='Instagram'
+        >
           <FaInstagram size={24} className='text-black' />
         </Link>
       </div>
