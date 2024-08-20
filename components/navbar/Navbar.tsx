@@ -4,14 +4,20 @@ import Link from 'next/link'
 import { NavLink } from '..'
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 
-// TODO: ir modificando esto
-const links = [
-  // { path: '/somos', text: 'Somos' },
-  // { path: '/presencial', text: 'Presencial' },
-  // { path: '/en-linea', text: 'Conecta' },
-  // { path: '/prensa', text: 'Prensa' },
-  // { path: '/', text: 'Publicaciones' },
-  // { path: '/', text: 'Quiero ayudar' },
+// Definición del tipo para los enlaces
+type LinkType = {
+  path: string;
+  text: string;
+};
+
+// Array de enlaces con el tipo definido
+const links: LinkType[] = [
+  { path: '/somos', text: 'Somos' },
+  { path: '/presencial', text: 'Presencial' },
+  { path: '/en-linea', text: 'Conecta' },
+  { path: '/prensa', text: 'Prensa' },
+  { path: '/', text: 'Publicaciones' },
+  { path: '/', text: 'Quiero ayudar' },
 ]
 
 export const Navbar = () => {
@@ -27,17 +33,20 @@ export const Navbar = () => {
         />
       </Link>
       <div className='flex flex-1 '></div>
-      {/* {links.map((link) => (
-        <NavLink key={link.text} {...link} />
-      ))} */}
-      {/* <div className='flex items-center'>
+      {/* Los enlaces de navegación */}
+      <>
+        {links.map((link: LinkType) => (
+          <NavLink key={link.text} {...link} />
+        ))}
+      </>
+      <div className='flex items-center'>
         <SearchIcon size={24} className='fill-black mx-[16px]' />
       </div>
       <div className='border-l-[1px] border-black mx-[16px] h-[25px] border-opacity-30' />
 
       <Link href={'/inicio-sesion'} className='flex items-center'>
         <PersonIcon size={24} className='fill-black' />
-      </Link> */}
+      </Link>
       <div className='border-l-[1px] border-black mx-[16px] h-[80px] border-opacity-30' />
 
       {/* Aquí están los iconos de redes sociales */}
@@ -50,7 +59,7 @@ export const Navbar = () => {
         </Link>
         <Link
           href='https://www.youtube.com/@fundacionchoyun6663'
-          aria-label='Twitter'
+          aria-label='YouTube'
         >
           <FaYoutube size={24} className='text-black' />
         </Link>
