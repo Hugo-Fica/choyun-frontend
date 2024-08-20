@@ -13,11 +13,11 @@ type LinkType = {
 
 const links: LinkType[] = [
   { path: '/somos', text: 'Sobre Nosotros' },
-  { path: '/presencial', text: 'Presencial' },
-  { path: '/en-linea', text: 'Conecta' },
-  { path: '/prensa', text: 'Prensa' },
-  { path: '/', text: 'Publicaciones' },
-  { path: '/', text: 'Quiero ayudar' },
+  { path: '/presencial', text: 'Lo que valoro - Filosofía y visión' },
+  { path: '/en-linea', text: 'Contenido educativo – blog' },
+  { path: '/prensa', text: 'Biblioteca libre' },
+  { path: '/', text: 'Donaciones' },
+  { path: '/', text: 'Contáctenos' },
 ];
 
 export const Navbar = () => {

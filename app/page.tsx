@@ -1,7 +1,26 @@
+"use client";
 import Head from 'next/head';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    "https://drive.google.com/uc?export=view&id=1E0gFkqUW2mDrGoZ0GCxOv9njBR6mNXc6",
+    "https://drive.google.com/uc?export=view&id=1Mf_2mCcrZsDKalERKhhifjxeYu36qccS",
+    "https://drive.google.com/uc?export=view&id=1s_W-ROhz5isy3S20k1vRPoW1bjsILdb2",
+    "https://drive.google.com/uc?export=view&id=13y8n2eglQiANq8rbtPXeQnS78i7C_Lo8"
+ 
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 2500); 
+
+    return () => clearInterval(interval); 
+  }, [images.length]);
+
   return (
     <>
       <Head>
@@ -18,13 +37,23 @@ export default function Home() {
         <link rel="canonical" href="https://www.fundacionchoyun.cl" />
       </Head>
       <main className="flex flex-col items-center justify-between p-6 md:p-12 lg:p-24">
-        <Image
-          src="https://drive.google.com/uc?export=view&id=1E0gFkqUW2mDrGoZ0GCxOv9njBR6mNXc6"
-          alt="FONDO-FUNDACIÓN"
-          width={1920}
-          height={1080}
-          className="w-full max-w-[70%] h-auto rounded-lg shadow-md"
-        />
+
+        {}
+        <div className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16">
+          {images.map((src, index) => (
+            <Image
+              key={index}
+              src={src}
+              alt={`Imagen ${index + 1}`}
+              layout="fill"
+              objectFit="cover"
+              className={`rounded-lg absolute transition-opacity duration-1000 ${
+                index === currentImage ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+        </div>
+
         <article className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-6 mt-9 px-6 md:px-12 lg:px-28">
           <div>
             <h2 className="text-xl md:text-2xl font-bold mb-4">Acerca de Choyün</h2>
