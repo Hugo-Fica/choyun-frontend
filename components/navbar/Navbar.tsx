@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PersonIcon, SearchIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,11 +21,26 @@ const links: LinkType[] = [
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null); // Usado para referenciar el menú
 
   // Función para manejar el cierre del menú cuando se selecciona un enlace
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
+  // Cierra el menú si se hace clic fuera de él
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
 
   return (
     <nav className='bg-white px-2 sm:px-4 lg:px-12 fixed top-0 w-full z-10 shadow-md'>
@@ -85,7 +100,7 @@ export const Navbar = () => {
         </div>
       </div>
       {isOpen && (
-        <div className='lg:hidden'>
+        <div ref={menuRef} className='lg:hidden'>
           <div className='flex flex-col space-y-1 px-2 pt-2 pb-3'>
             {links.map((link: LinkType) => (
               <Link href={link.path} key={link.text} legacyBehavior>
