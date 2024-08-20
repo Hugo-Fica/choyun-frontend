@@ -1,33 +1,22 @@
 "use client";
 import Head from 'next/head';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    "https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm",
+    "https://drive.google.com/uc?export=view&id=1dcs3Xuwed6cAcY64ybpxiwKHkAUg71ZB"
+  ];
+
   useEffect(() => {
-    const images = document.querySelectorAll('.fade-in-up');
-    const options = {
-      threshold: 0.1,
-    };
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 5000); 
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fadeInUp');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, options);
-
-    images.forEach(image => {
-      observer.observe(image);
-    });
-
-    const texts = document.querySelectorAll('.fade-in-text');
-    texts.forEach(text => {
-      observer.observe(text);
-    });
-  }, []);
+    return () => clearInterval(interval); 
+  }, [images.length]);
 
   return (
     <>
@@ -44,32 +33,25 @@ export default function AboutPage() {
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.fundacionchoyun.cl/sobre-nosotros" />
       </Head>
-      <main className="flex flex-col items-center justify-between p-6 md:p-12 lg:p-24">
-        {/* Contenedor para las Imágenes en forma horizontal */}
-        <div className="flex justify-center space-x-4 mb-8">
-          <div className="w-1/2 overflow-hidden">
-            <Image
-              src="https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm"
-              alt="Sobre nosotros"
-              width={960}
-              height={540}
-              className="w-full h-auto rounded-lg shadow-md transform hover:scale-105 transition-transform duration-500 fade-in-up"
-            />
-          </div>
+      <main className="flex flex-col items-center justify-between p-4 md:p-6 lg:p-12">
+        {}
+        <div className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16">
+        {images.map((src, index) => (
+          <Image
+            key={index}
+            src={src}
+            alt={`Imagen ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+            className={`rounded-lg absolute transition-opacity duration-1000 ${
+              index === currentImage ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+      </div>
 
-          <div className="w-1/2 overflow-hidden">
-            <Image
-              src="https://drive.google.com/uc?export=view&id=1dcs3Xuwed6cAcY64ybpxiwKHkAUg71ZB"
-              alt="Otra vista de la fundación"
-              width={960}
-              height={540}
-              className="w-full h-auto rounded-lg shadow-md transform hover:scale-105 transition-transform duration-500 fade-in-up"
-            />
-          </div>
-        </div>
-
-        {/* Texto de "Sobre Nosotros" */}
-        <article className="grid grid-cols-1 gap-y-8 gap-x-6 mt-9 px-6 md:px-12 lg:px-28 fade-in-text">
+        {}
+        <article className="grid grid-cols-1 gap-y-8 gap-x-6 mt-9 px-4 md:px-12 lg:px-28 fade-in-text">
           <div>
             <h2 className="text-xl md:text-2xl font-bold mb-4">SOBRE NOSOTROS</h2>
             <p className="mb-4 text-sm md:text-base">
