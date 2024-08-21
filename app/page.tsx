@@ -10,7 +10,6 @@ export default function Home() {
     "https://drive.google.com/uc?export=view&id=1Mf_2mCcrZsDKalERKhhifjxeYu36qccS",
     "https://drive.google.com/uc?export=view&id=1s_W-ROhz5isy3S20k1vRPoW1bjsILdb2",
     "https://drive.google.com/uc?export=view&id=13y8n2eglQiANq8rbtPXeQnS78i7C_Lo8"
- 
   ];
 
   useEffect(() => {
@@ -27,14 +26,22 @@ export default function Home() {
         <title>Fundación Choyün - Arte y Cultura en Chile</title>
         <meta
           name="description"
-          content="Fundación Choyün promueve la cultura y las artes en Chile, ofreciendo talleres, actividades holísticas y más. Conéctate con nosotros para explorar y aprender."
+          content="Fundación Choyün promueve la cultura y las artes en Chile, ofreciendo talleres, actividades holísticas, y más. Conéctate con nosotros para explorar y aprender."
         />
         <meta
           name="keywords"
-          content="Fundación Choyün, arte, cultura, talleres, Chile, musicoterapia, arteterapia, El Salvador, Diego de Almagro"
+          content="Fundación Choyün, arte, cultura, talleres, Chile, musicoterapia, arteterapia, El Salvador, Diego de Almagro, revitalización cultural, educación artística"
         />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.fundacionchoyun.cl" />
+        <meta property="og:title" content="Fundación Choyün - Arte y Cultura en Chile" />
+        <meta property="og:description" content="Explora la Fundación Choyün, donde promovemos la cultura y las artes en Chile a través de talleres, actividades, y más." />
+        <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1E0gFkqUW2mDrGoZ0GCxOv9njBR6mNXc6" />
+        <meta property="og:url" content="https://www.fundacionchoyun.cl" />
+        <meta name="twitter:title" content="Fundación Choyün - Arte y Cultura en Chile" />
+        <meta name="twitter:description" content="Únete a la Fundación Choyün para aprender y explorar la cultura y las artes en Chile." />
+        <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=1E0gFkqUW2mDrGoZ0GCxOv9njBR6mNXc6" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <main className="flex flex-col items-center justify-between p-6 md:p-12 lg:p-24">
 

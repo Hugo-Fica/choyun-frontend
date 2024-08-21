@@ -28,10 +28,18 @@ export default function AboutPage() {
         />
         <meta
           name="keywords"
-          content="Fundación Choyün, sobre nosotros, misión, visión, arte, cultura, Chile, El Salvador"
+          content="Fundación Choyün, sobre nosotros, misión, visión, arte, cultura, Chile, El Salvador, talleres artísticos, educación artística, revitalización cultural"
         />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.fundacionchoyun.cl/sobre-nosotros" />
+        <meta property="og:title" content="Sobre Nosotros - Fundación Choyün" />
+        <meta property="og:description" content="Descubre la historia y la misión de la Fundación Choyün, una organización dedicada a revitalizar la cultura y las artes en Chile." />
+        <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm" />
+        <meta property="og:url" content="https://www.fundacionchoyun.cl/sobre-nosotros" />
+        <meta name="twitter:title" content="Sobre Nosotros - Fundación Choyün" />
+        <meta name="twitter:description" content="Conoce más sobre la Fundación Choyün y cómo promovemos la cultura y las artes en Chile." />
+        <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <main className="flex flex-col items-center justify-between p-4 md:p-6 lg:p-12">
         {}
