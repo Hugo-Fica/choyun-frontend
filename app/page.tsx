@@ -1,7 +1,7 @@
 "use client";
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -12,6 +12,9 @@ export default function Home() {
     "https://drive.google.com/uc?export=view&id=13y8n2eglQiANq8rbtPXeQnS78i7C_Lo8"
   ];
 
+  const elementsRef = useRef<(HTMLElement | null)[]>([]);
+  elementsRef.current = [];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
@@ -19,6 +22,37 @@ export default function Home() {
 
     return () => clearInterval(interval); 
   }, [images.length]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0');
+          entry.target.classList.add('opacity-100', 'transform', 'translate-x-0');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    elementsRef.current.forEach(element => {
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      elementsRef.current.forEach(element => {
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
+  }, []);
+
+  const addToRefs = (el: HTMLElement | null) => {
+    if (el && !elementsRef.current.includes(el)) {
+      elementsRef.current.push(el);
+    }
+  };
 
   return (
     <>
@@ -44,9 +78,11 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <main className="flex flex-col items-center justify-between p-6 md:p-12 lg:p-24">
-
-        {}
-        <div className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16">
+        
+        <div 
+          className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16 opacity-0 transition-opacity duration-1000 ease-in-out"
+          ref={addToRefs}
+        >
           {images.map((src, index) => (
             <Image
               key={index}
@@ -62,7 +98,7 @@ export default function Home() {
         </div>
 
         <article className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-6 mt-9 px-6 md:px-12 lg:px-28">
-          <div>
+          <div ref={addToRefs} className="opacity-0 translate-x-[-20px] transition-all duration-1000 ease-in-out">
             <h2 className="text-xl md:text-2xl font-bold mb-4">Acerca de Choyün</h2>
             <ul className="list-disc pl-5 space-y-4 text-sm md:text-base">
               <li>Choyün significa “brote” o “brotar” en mapudungün, idioma Mapuche.</li>
@@ -75,7 +111,7 @@ export default function Home() {
             </ul>
             <hr className="my-8 border-t-2 border-gray-300" />
           </div>
-          <div>
+          <div ref={addToRefs} className="opacity-0 translate-x-[20px] transition-all duration-1000 ease-in-out">
             <h2 className="text-xl md:text-2xl font-bold mb-4">Nuestra Visión</h2>
             <p className="mb-4 text-sm md:text-base">
               Nuestra Visión es crear una comunidad inclusiva y no competitiva a través de una profunda experiencia con las artes y todas las disciplinas relacionadas.

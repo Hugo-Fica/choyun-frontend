@@ -1,7 +1,7 @@
 "use client";
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function AboutPage() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -10,6 +10,9 @@ export default function AboutPage() {
     "https://drive.google.com/uc?export=view&id=1dcs3Xuwed6cAcY64ybpxiwKHkAUg71ZB"
   ];
 
+  const elementsRef = useRef<(HTMLElement | null)[]>([]);
+  elementsRef.current = [];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prevImage) => (prevImage + 1) % images.length);
@@ -17,6 +20,37 @@ export default function AboutPage() {
 
     return () => clearInterval(interval); 
   }, [images.length]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0');
+          entry.target.classList.add('opacity-100', 'transform', 'translate-x-0');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    elementsRef.current.forEach(element => {
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      elementsRef.current.forEach(element => {
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
+  }, []);
+
+  const addToRefs = (el: HTMLElement | null) => {
+    if (el && !elementsRef.current.includes(el)) {
+      elementsRef.current.push(el);
+    }
+  };
 
   return (
     <>
@@ -42,25 +76,27 @@ export default function AboutPage() {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <main className="flex flex-col items-center justify-between p-4 md:p-6 lg:p-12">
-        {}
-        <div className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16">
-        {images.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`Imagen ${index + 1}`}
-            layout="fill"
-            objectFit="cover"
-            className={`rounded-lg absolute transition-opacity duration-1000 ${
-              index === currentImage ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-      </div>
+        
+        <div 
+          className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] h-0 pb-[50%] md:pb-[40%] lg:pb-[30%] rounded-lg shadow-md overflow-hidden mb-8 mt-16 opacity-0 transition-opacity duration-1000 ease-in-out"
+          ref={addToRefs}
+        >
+          {images.map((src, index) => (
+            <Image
+              key={index}
+              src={src}
+              alt={`Imagen ${index + 1}`}
+              layout="fill"
+              objectFit="cover"
+              className={`rounded-lg absolute transition-opacity duration-1000 ${
+                index === currentImage ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+        </div>
 
-        {}
-        <article className="grid grid-cols-1 gap-y-8 gap-x-6 mt-9 px-4 md:px-12 lg:px-28 fade-in-text">
-          <div>
+        <article className="grid grid-cols-1 gap-y-8 gap-x-6 mt-9 px-4 md:px-12 lg:px-28">
+          <div ref={addToRefs} className="opacity-0 translate-x-[-20px] transition-all duration-1000 ease-in-out">
             <h2 className="text-xl md:text-2xl font-bold mb-4">SOBRE NOSOTROS</h2>
             <p className="mb-4 text-sm md:text-base">
               En 2019, dos jóvenes artistas y profesores, reflexionaban un mundo distinto de trato y acción para infancias y juventudes de El Salvador, pues les preocupaba la falta de educación artística disponible para las infancias en el último campamento minero del mundo.

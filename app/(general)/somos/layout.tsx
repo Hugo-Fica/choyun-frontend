@@ -5,7 +5,7 @@ export default function SomosLayout({
 }) {
   return (
     <div>
-      <h1>Hello Root Layout Somos</h1>
+      <h1>Somos</h1>
       {children}
     </div>
   );
