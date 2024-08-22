@@ -33,9 +33,10 @@ export default function Home() {
       });
     }, { threshold: 0.1 });
 
-    elementsRef.current.forEach(element => {
+    elementsRef.current.forEach((element, index) => {
       if (element) {
         observer.observe(element);
+        element.style.transitionDelay = `${index * 0.3}s`; // Aplicando el retraso en función del índice
       }
     });
 
