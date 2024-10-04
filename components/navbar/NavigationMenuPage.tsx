@@ -13,23 +13,44 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { ButtonBurger } from '../buttons/ButtonBurger'
 
 export function NavigationMenuPage() {
   return (
     <NavigationMenu className='bg-white fixed top-0 w-full z-10 shadow-md'>
-      <NavigationMenuList className='w-screen flex justify-between items-center px-2 sm:px-4 lg:px-12'>
+      {/* Mobile Navbar (visible on small screens) */}
+      <NavigationMenuList className='flex justify-between items-center px-4 lg:px-12 md:hidden'>
         <div className='flex items-center'>
           <NavigationMenuItem className='h-16 flex items-center'>
             <Link href={'/'} legacyBehavior>
-              <a>
-                <Image
-                  className='w-auto pb-[10px]'
-                  src='/assets/logo_choyun-1.png'
-                  alt='logo-choyun'
-                  width={100}
-                  height={100}
-                />
-              </a>
+              <Image
+                className='w-[200px] pl-[25px]'
+                src='/assets/logo_choyun-1.png'
+                alt='logo-choyun'
+                width={80}
+                height={80}
+              />
+            </Link>
+          </NavigationMenuItem>
+        </div>
+        {/* Simple icon or button for mobile menu */}
+        <div className='flex items-center w-screen justify-end pr-[25px]'>
+          <ButtonBurger />
+        </div>
+      </NavigationMenuList>
+
+      {/* Desktop Navbar (visible on medium and larger screens) */}
+      <NavigationMenuList className='hidden md:flex w-screen justify-between items-center px-2 sm:px-4 lg:px-12'>
+        <div className='flex items-center'>
+          <NavigationMenuItem className='h-16 flex items-center'>
+            <Link href={'/'} legacyBehavior>
+              <Image
+                className='w-[80px] sm:w-[100px] md:w-[150px] lg:w-[200px]'
+                src='/assets/logo_choyun-1.png'
+                alt='logo-choyun'
+                width={200}
+                height={100}
+              />
             </Link>
           </NavigationMenuItem>
         </div>
@@ -37,7 +58,7 @@ export function NavigationMenuPage() {
           {linksNavigate.map((link) => (
             <NavigationMenuItem
               key={link.title}
-              className='flex items-center px-2 left-20'
+              className='flex items-center px-2'
             >
               <NavigationMenuTrigger className='md:text-base text-xs'>
                 {link.title}
