@@ -1,5 +1,6 @@
-import { InputPass } from '@/components'
+import React from 'react'
 import Link from 'next/link'
+import { InputPass } from '@/components'
 
 export default function InicioSesionPage() {
   return (
