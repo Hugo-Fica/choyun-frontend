@@ -1,6 +1,6 @@
 import React from 'react'
-import { InputPass } from '@/components'
 import Link from 'next/link'
+import { InputPass } from '@/components'
 export default function CrearCuenta() {
   return (
     <>

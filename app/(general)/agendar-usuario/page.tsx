@@ -1,4 +1,4 @@
-import { Calendario, EventoModal } from '@/components'
+import { Calendario } from '@/components'
 
 export default function AgendarUsuario() {
   return (
