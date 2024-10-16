@@ -3,5 +3,5 @@ export default function PresencialPage() {
     <>
       <h1>presencial choyun</h1>
     </>
-  );
+  )
 }
