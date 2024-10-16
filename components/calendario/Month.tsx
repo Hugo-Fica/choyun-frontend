@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { Fragment } from 'react'
-import { Days } from '..'
 import 'dayjs/locale/es'
+import { Days } from './Days'
 interface Props {
   month: dayjs.Dayjs[][]
 }

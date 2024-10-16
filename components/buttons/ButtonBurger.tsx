@@ -8,14 +8,15 @@ import {
 } from 'react'
 import { motion } from 'framer-motion'
 import { linksNavigate } from '@/helpers/links-navigate'
+
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
+} from '../ui/accordion'
 
 export const ButtonBurger = () => {
   const [isOpen, setIsOpen] = useState(false)

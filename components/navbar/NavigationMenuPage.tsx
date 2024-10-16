@@ -1,5 +1,11 @@
 'use client'
 
+import { linksNavigate } from '@/helpers/links-navigate'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { ButtonBurger } from '../buttons/ButtonBurger'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,13 +13,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu'
-import { linksNavigate } from '@/helpers/links-navigate'
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import { ButtonBurger } from '../buttons/ButtonBurger'
+} from '../ui/navigation-menu'
 
 export function NavigationMenuPage() {
   return (

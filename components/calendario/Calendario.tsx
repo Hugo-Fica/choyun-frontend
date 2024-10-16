@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react'
 import { Dosis } from 'next/font/google'
 import dayjs from 'dayjs'
 import { getMonth } from '@/helpers/utils'
-import { CalendarioHeader, Month, SidebarCalendario } from '..'
 import { useEventosStore } from '@/store/eventos'
+import { CalendarioHeader } from './CalendarioHeader'
+import { SidebarCalendario } from './SidebarCalendario'
+import { Month } from './Month'
 
 const dosis = Dosis({ subsets: ['latin'], weight: '500' })
 export const Calendario = () => {

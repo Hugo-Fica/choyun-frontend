@@ -1,4 +1,5 @@
-import { CrearEvento, MiniCalendario } from '..'
+import { CrearEvento } from './CrearEvento'
+import { MiniCalendario } from './MiniCalendario'
 
 export const SidebarCalendario = () => {
   return (

@@ -1,4 +1,4 @@
-import { InputPass } from '@/components'
+import { InputPass } from '@/components/input-pass/InputPass'
 import Link from 'next/link'
 export default function CrearCuenta() {
   return (
