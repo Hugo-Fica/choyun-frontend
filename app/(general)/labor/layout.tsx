@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'El Salvador',
     'talleres artísticos',
     'educación artística',
-    'revitalización cultural',
+    'revitalización cultural'
   ],
   robots: 'index, follow',
   openGraph: {
@@ -28,33 +28,22 @@ export const metadata: Metadata = {
         url: 'https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm',
         width: 800,
         height: 600,
-        alt: 'Fundación Choyün - Arte y Cultura en Chile',
-      },
-    ],
+        alt: 'Fundación Choyün - Arte y Cultura en Chile'
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Sobre Nosotros - Fundación Choyün',
     description:
       'Conoce más sobre la Fundación Choyün y cómo promovemos la cultura y las artes en Chile.',
-    images: [
-      'https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm',
-    ],
+    images: ['https://drive.google.com/uc?export=view&id=1nim2jqyBBkETr09bEjvgOZ9huuIKqXFm']
   },
   alternates: {
-    canonical: 'https://www.fundacionchoyun.cl/sobre-nosotros',
-  },
+    canonical: 'https://www.fundacionchoyun.cl/sobre-nosotros'
+  }
 }
 
-export default function SomosLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div>
-      <h1>Somos</h1>
-      {children}
-    </div>
-  )
+export default function SomosLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
