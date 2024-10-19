@@ -12,17 +12,21 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
+  NavigationMenuTrigger
 } from '../ui/navigation-menu'
+import { usePathname } from 'next/navigation'
 
 export function NavigationMenuPage() {
+  const path = usePathname()
   return (
     <NavigationMenu className='bg-white fixed top-0 w-full z-10 shadow-md'>
       {/* Mobile Navbar (visible on small screens) */}
       <NavigationMenuList className='flex justify-between items-center px-4 lg:px-12 md:hidden'>
         <div className='flex items-center'>
           <NavigationMenuItem className='h-16 flex items-center'>
-            <Link href={'/'} legacyBehavior>
+            <Link
+              href={'/'}
+              legacyBehavior>
               <Image
                 className='w-[200px] pl-[25px]'
                 src='/assets/logo_choyun-1.png'
@@ -43,7 +47,9 @@ export function NavigationMenuPage() {
       <NavigationMenuList className='hidden md:flex w-screen justify-between items-center px-2 sm:px-4 lg:px-12'>
         <div className='flex items-center'>
           <NavigationMenuItem className='h-16 flex items-center'>
-            <Link href={'/'} legacyBehavior>
+            <Link
+              href={'/'}
+              legacyBehavior>
               <Image
                 className='w-[80px] sm:w-[100px] md:w-[150px] lg:w-[200px]'
                 src='/assets/logo_choyun-1.png'
@@ -58,8 +64,7 @@ export function NavigationMenuPage() {
           {linksNavigate.map((link) => (
             <NavigationMenuItem
               key={link.title}
-              className='flex items-center px-2'
-            >
+              className='flex items-center px-2'>
               <NavigationMenuTrigger className='md:text-base text-xs'>
                 {link.title}
               </NavigationMenuTrigger>
@@ -69,8 +74,9 @@ export function NavigationMenuPage() {
                     <ListItem
                       key={sub.href}
                       href={sub.href}
-                      className='text-black hover:text-gray-700 text-sm'
-                    >
+                      className={`${
+                        path === sub.href ? 'bg-gray-300 text-white' : 'text-black'
+                      }  hover:text-gray-700 text-sm`}>
                       {sub.title}
                     </ListItem>
                   ))}
@@ -96,8 +102,7 @@ const ListItem = forwardRef<ElementRef<'a'>, ComponentPropsWithoutRef<'a'>>(
               'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
               className
             )}
-            {...props}
-          >
+            {...props}>
             <p className='line-clamp-2 text-xs md:text-sm leading-snug text-muted-foreground'>
               {children}
             </p>
