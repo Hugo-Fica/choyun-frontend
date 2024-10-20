@@ -1,48 +1,55 @@
 'use client'
 
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  forwardRef,
-  useState,
-} from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { linksNavigate } from '@/helpers/links-navigate'
 
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '../ui/accordion'
+import { usePathname } from 'next/navigation'
+import { Accordion, AccordionContent, AccordionTrigger } from '../ui/accordion'
+import { AccordionItem } from '@radix-ui/react-accordion'
 
 export const ButtonBurger = () => {
+  const path = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
 
+  // Detectar clics fuera del menú
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuRef])
+
   return (
-    <div className='relative'>
+    <div
+      ref={menuRef}
+      className='relative'>
       {/* Burger Button */}
       <button
         onClick={toggleMenu}
-        className='z-50 relative flex items-center justify-center w-10 h-10 focus:outline-none'
-      >
+        className='z-50 relative flex items-center justify-center w-10 h-10 focus:outline-none'>
         <motion.div
           initial='closed'
           animate={isOpen ? 'open' : 'closed'}
-          className='flex flex-col justify-between w-6 h-6'
-        >
+          className='flex flex-col justify-between w-6 h-6'>
           {/* Top Line */}
           <motion.span
             className='block h-0.5 bg-black'
             variants={{
               closed: { rotate: 0, y: 0 },
-              open: { rotate: 45, y: 11 },
+              open: { rotate: 45, y: 11 }
             }}
             transition={{ duration: 0.3 }}
           />
@@ -51,7 +58,7 @@ export const ButtonBurger = () => {
             className='block h-0.5 bg-black'
             variants={{
               closed: { opacity: 1 },
-              open: { opacity: 0 },
+              open: { opacity: 0 }
             }}
             transition={{ duration: 0.3 }}
           />
@@ -60,7 +67,7 @@ export const ButtonBurger = () => {
             className='block h-0.5 bg-black'
             variants={{
               closed: { rotate: 0, y: 0 },
-              open: { rotate: -45, y: -11 },
+              open: { rotate: -45, y: -11 }
             }}
             transition={{ duration: 0.3 }}
           />
@@ -71,54 +78,33 @@ export const ButtonBurger = () => {
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={
-          isOpen
-            ? { maxHeight: '600px', opacity: 1, height: 'auto' }
-            : { height: 0, opacity: 0 }
+          isOpen ? { maxHeight: '600px', opacity: 1, height: 'auto' } : { height: 0, opacity: 0 }
         }
         transition={{ duration: 0.5 }}
-        className='absolute top-[51px] right-0 w-[200px] text-xs bg-white text-black overflow-hidden shadow-xl'
-      >
-        {linksNavigate.map((links) => (
-          <Accordion type='single' collapsible key={links.title}>
-            <AccordionItem value={links.title}>
-              <AccordionTrigger className='pl-[20px]'>
-                {links.title}
-              </AccordionTrigger>
-              {links.subLinks.map((sub) => (
-                <ListItem key={sub.title} href={sub.href}>
-                  {sub.title}
-                </ListItem>
+        className='absolute top-[51px] right-0 w-[200px] text-xs bg-white text-black overflow-hidden shadow-xl'>
+        <Accordion
+          type='single'
+          collapsible>
+          {linksNavigate.map((links) => (
+            <AccordionItem
+              value={links.title}
+              key={links.title}>
+              <AccordionTrigger className='pl-[20px]'>{links.title}</AccordionTrigger>
+              {links.subLinks.map((sl) => (
+                <AccordionContent
+                  key={sl.title}
+                  className={`${path === sl.href && 'bg-gray-300 text-black'} p-[15px]`}>
+                  <Link
+                    href={sl.href}
+                    onClick={toggleMenu}>
+                    {sl.title}
+                  </Link>
+                </AccordionContent>
               ))}
             </AccordionItem>
-          </Accordion>
-        ))}
+          ))}
+        </Accordion>
       </motion.div>
     </div>
   )
 }
-
-const ListItem = forwardRef<ElementRef<'a'>, ComponentPropsWithoutRef<'a'>>(
-  ({ className, title, children, href = '/', ...props }, ref) => {
-    return (
-      <li>
-        <AccordionContent asChild>
-          <Link
-            ref={ref}
-            href={href}
-            className={cn(
-              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-              className
-            )}
-            {...props}
-          >
-            <p className='line-clamp-2 text-xs md:text-sm leading-snug text-muted-foreground'>
-              {children}
-            </p>
-          </Link>
-        </AccordionContent>
-      </li>
-    )
-  }
-)
-
-ListItem.displayName = 'ListItem'
