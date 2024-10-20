@@ -46,7 +46,7 @@ export default function QuienesSomosPage() {
               </li>
             </ul>
           </article>
-          <article className='mt-10 xs:mt-10'>
+          <article className='xs:mt-10 xl:mt-1'>
             <figure>
               <span>foto docente</span>
               <figcaption>Juan Ignacio Díaz Miranda</figcaption>
