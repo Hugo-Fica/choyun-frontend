@@ -2,14 +2,15 @@
 import { Fragment, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react'
-import { useEventosStore } from '@/store/eventos'
+import { useEventosStore } from '@/store/eventos-store'
 import { getMonth } from '@/helpers/utils'
 
 export const MiniCalendario = () => {
   const [currentMonthIndex, setCurrentMonthIndex] = useState(dayjs().month())
   const [currentMonth, setCurrentMonth] = useState<dayjs.Dayjs[][]>(getMonth())
-  const { monthIndex, setSmallCalendarMonth, setDaySelected, daySelected } =
-    useEventosStore((state) => state)
+  const { monthIndex, setSmallCalendarMonth, setDaySelected, daySelected } = useEventosStore(
+    (state) => state
+  )
 
   const handleMesSiguiente = () => {
     setCurrentMonthIndex(currentMonthIndex + 1)
@@ -47,20 +48,24 @@ export const MiniCalendario = () => {
     <div className='mt-9'>
       <header className=' flex justify-between'>
         <p className='text-gray-500'>
-          {dayjs(new Date(dayjs().year(), currentMonthIndex))
-            .locale('es')
-            .format('MMMM YYYY')}
+          {dayjs(new Date(dayjs().year(), currentMonthIndex)).locale('es').format('MMMM YYYY')}
         </p>
-        <button className='-translate-y-[13px]' onClick={handleMesAnterior}>
+        <button
+          className='-translate-y-[13px]'
+          onClick={handleMesAnterior}>
           <ChevronLeftIcon size={'medium'} />
         </button>
-        <button className='-translate-y-[13px]' onClick={handleMesSiguiente}>
+        <button
+          className='-translate-y-[13px]'
+          onClick={handleMesSiguiente}>
           <ChevronRightIcon size={'medium'} />
         </button>
       </header>
       <div className='grid grid-cols-7 grid-rows-6'>
         {currentMonth[0].map((day, i) => (
-          <span key={i} className='text-sm py-1 text-center'>
+          <span
+            key={i}
+            className='text-sm py-1 text-center'>
             {day.locale('es').format('dd').charAt(0).toUpperCase()}
           </span>
         ))}
@@ -70,8 +75,7 @@ export const MiniCalendario = () => {
               <button
                 key={idx}
                 onClick={handleMiniCalendario(day)}
-                className={`${getDayClass(day)} py-1 w-full`}
-              >
+                className={`${getDayClass(day)} py-1 w-full`}>
                 <span className='text-sm'>{day.format('D')}</span>
               </button>
             ))}

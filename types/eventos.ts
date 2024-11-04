@@ -1,6 +1,4 @@
-import dayjs from 'dayjs'
-
-export interface eventos {
+export type eventos = {
   monthIndex: number
   setMonthIndex: (index: number) => void
   smallCalendarMonth: number

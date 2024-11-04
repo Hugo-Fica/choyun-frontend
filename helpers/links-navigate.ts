@@ -1,4 +1,4 @@
-import { type LinkType } from '@/types/links'
+import { LinkTypeAuth, type LinkType } from '@/types/links'
 
 export const linksNavigate: LinkType[] = [
   {
@@ -40,3 +40,26 @@ export const linksNavigate: LinkType[] = [
     ]
   }
 ]
+export const linksNavigateAuth: LinkTypeAuth[] = [
+  { title: 'Administrar usuarios', url: 'administrar-usuarios' }
+]
+export const publicRoutes = [
+  'inicio-sesion',
+  'crear-cuenta',
+  'causa/acopio-materiales-artisticos',
+  'causa/biblioteca-libre-nazarena-jeronimo',
+  'causa/recoleccion-tapitas',
+  'causa/sala-ensayo',
+  'causa/salidas-pedagogocas',
+  'causa/visitas-artisticas',
+  'labor/arpillera-creativa',
+  'labor/crianza-respetuosa',
+  'labor/semillero-artistico',
+  'labor/semillero-musical',
+  'labor/yoga-y-ubound',
+  'quienes-somos',
+  'sumate/dona',
+  'sumate/tienda-solidaria',
+  'sumate/voluntarixs'
+]
+export const authRoutes = ['administrar-usuarios']

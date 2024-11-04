@@ -1,9 +1,14 @@
-interface SubLinkType {
+type SubLinkType = {
   title: string
   href: string
 }
 
-export interface LinkType {
+export type LinkType = {
   title: string
   subLinks: SubLinkType[]
+}
+
+export type LinkTypeAuth = {
+  title: string
+  url: string
 }
