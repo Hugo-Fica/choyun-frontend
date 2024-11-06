@@ -15,6 +15,7 @@ export default function useLogin() {
     try {
       const { data } = await axios.post('/api/auth', user)
       const decodedToken = jwt.decode(data.token) as JwtPayload | null
+      console.log(decodedToken)
       if (decodedToken && decodedToken.exp) {
         const tiempoActual = Date.now()
         const tiempoExpiracion = decodedToken.exp * 1000
@@ -56,9 +57,10 @@ export default function useLogin() {
       }
     }
   }
+
   const getUser = async (user_id: string): Promise<{ user: User | null }> => {
     try {
-      const { data } = await axios.get(`/api/users/${user_id}`)
+      const { data } = await axios.get(`/api/protected/users/${user_id}`)
       if (!data) {
         return { user: null }
       }
@@ -66,6 +68,7 @@ export default function useLogin() {
         user: data
       }
     } catch (error) {
+      console.log(error)
       return {
         user: null
       }

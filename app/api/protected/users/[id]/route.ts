@@ -3,7 +3,7 @@ import prisma from '@/prisma/prisma'
 import dayjs from 'dayjs'
 
 export async function GET(request: NextRequest) {
-  const user_id = request.nextUrl.pathname.split('/')[3]
+  const user_id = request.nextUrl.pathname.split('/')[4]
   try {
     const user = await prisma.users.findUnique({
       where: { id: user_id },
@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
     }
     return NextResponse.json(userFinal)
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }
 }

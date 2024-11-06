@@ -8,12 +8,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Accordion, AccordionContent, AccordionTrigger } from '../ui/accordion'
 import { AccordionItem } from '@radix-ui/react-accordion'
+import { useUserStore } from '@/store/user-store'
+import { linksNavigateAuth } from '../../helpers/links-navigate'
 
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
   { title: 'Iniciar sesión', link: '/inicio-sesion' }
 ]
 export const ButtonBurger = () => {
+  const user = useUserStore((state) => state.user)
   const path = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -107,17 +110,29 @@ export const ButtonBurger = () => {
                 </svg>
               </span>
             </AccordionTrigger>
-            {routes.map((r) => (
-              <AccordionContent
-                key={r.link}
-                className={`${path === r.link && 'bg-gray-300 text-black'} p-[15px]`}>
-                <Link
-                  href={r.link}
-                  onClick={toggleMenu}>
-                  {r.title}
-                </Link>
-              </AccordionContent>
-            ))}
+            {user !== null
+              ? linksNavigateAuth.map((link) => (
+                  <AccordionContent
+                    key={link.title}
+                    className={`${path === link.url && 'bg-gray-300 text-black'} p-[15px]`}>
+                    <Link
+                      href={link.url}
+                      onClick={toggleMenu}>
+                      {link.title}
+                    </Link>
+                  </AccordionContent>
+                ))
+              : routes.map((r) => (
+                  <AccordionContent
+                    key={r.link}
+                    className={`${path === r.link && 'bg-gray-300 text-black'} p-[15px]`}>
+                    <Link
+                      href={r.link}
+                      onClick={toggleMenu}>
+                      {r.title}
+                    </Link>
+                  </AccordionContent>
+                ))}
           </AccordionItem>
           {linksNavigate.map((links) => (
             <AccordionItem

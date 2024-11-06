@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 import { generarToken } from '@/lib/auth'
-import { setCookie } from 'nookies'
-
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
@@ -24,14 +22,18 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     const token = generarToken(usuario.id, usuario.role_id)
-    setCookie(null, 'authToken', token, {
-      maxAge: 7 * 24 * 60 * 60,
-      path: '/',
+    const response = NextResponse.json({ message: `Bienvenido ${usuario.names}`, token })
+    response.cookies.set('token', token, {
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      maxAge: 60 * 60 * 24 * 7,
+      path: '/',
+      sameSite: 'lax'
     })
-    return NextResponse.json({ message: `Bienvenido ${usuario.names}`, token })
+
+    return response
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }
 }

@@ -1,11 +1,9 @@
-'use client'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './globals.css'
 import { NavigationMenuPage } from '@/components/navbar/NavigationMenuPage'
 import { Footer } from '@/components/footer/Footer'
-import { Toaster } from '../components/ui/toaster'
+import { ClientProviders } from '@/components/layout/ClientProviders'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -53,19 +51,17 @@ export const metadata: Metadata = {
   },
   icons: ''
 }
-const queryClient = new QueryClient()
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='es'>
       <body className={inter.className}>
-        <Toaster />
-        <QueryClientProvider client={queryClient}>
-          <div className='flex flex-col min-h-screen '>
+        <div className='flex flex-col min-h-screen '>
+          <ClientProviders>
             <NavigationMenuPage />
             <main className='flex-grow flex justify-center items-center'>{children}</main>
             <Footer />
-          </div>
-        </QueryClientProvider>
+          </ClientProviders>
+        </div>
       </body>
     </html>
   )

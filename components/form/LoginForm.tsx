@@ -48,7 +48,8 @@ export const LoginForm = () => {
     mutationFn: getUser
   })
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { validated, user_id, role_id, message, exp } = await loginUserAsync(values)
+    const { validated, user_id, message, exp } = await loginUserAsync(values)
+    console.log(user_id)
     if (validated) {
       toast({
         title: message,
