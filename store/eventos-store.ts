@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { type eventos } from '@/types/eventos-store'
+import { type eventos } from '@/types/eventos'
 import dayjs from 'dayjs'
 
 export const useEventosStore = create<eventos>()(
@@ -23,7 +23,7 @@ export const useEventosStore = create<eventos>()(
           },
           setDaySelected: (day) => {
             set({ daySelected: day }, false, 'dia_seleccionado')
-          },
+          }
         }
       },
       { name: 'eventos-calendario' }

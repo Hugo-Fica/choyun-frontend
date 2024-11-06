@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
+import dayjs from 'dayjs'
 
 export async function GET() {
   try {
@@ -8,10 +9,15 @@ export async function GET() {
       include: { role: { select: { name: true } } }
     })
     if (usuarios.length < 1) return NextResponse.json({ message: 'No se encontraron usuarios' })
-    const usuariosFinal = usuarios.map(({ password, role_id, ...u }) => ({
-      ...u,
-      role: u.role?.name
-    }))
+    const usuariosFinal = usuarios.map(({ password, role_id, ...u }) => {
+      const adjustedDate = dayjs(u?.birthday).add(4, 'hour')
+      const formattedBirthday = adjustedDate.format('DD/MM/YYYY')
+      return {
+        ...u,
+        role: u.role?.name,
+        birthday: formattedBirthday
+      }
+    })
     return NextResponse.json({ usuarios: usuariosFinal })
   } catch (error) {
     console.error(error)
@@ -44,7 +50,7 @@ export async function POST(req: NextRequest) {
         age,
         phone,
         role_id,
-        birthday: new Date(`${birthday}T00:00:00.000Z`)
+        birthday: new Date(birthday)
       }
     })
     if (nuevoUsuario) return NextResponse.json({ message: 'Usuario creado' })

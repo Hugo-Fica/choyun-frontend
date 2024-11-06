@@ -1,4 +1,4 @@
-import { useEventosStore } from '@/store/eventos'
+import { useEventosStore } from '@/store/eventos-store'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react'
 import dayjs from 'dayjs'
 import Image from 'next/image'
@@ -25,26 +25,25 @@ export const CalendarioHeader = () => {
           width={70}
           height={70}
         />
-        <span className='text-xl -translate-y-[13px]'>
-          Calendario de agendas
-        </span>
+        <span className='text-xl -translate-y-[13px]'>Calendario de agendas</span>
       </div>
       <button
         className='-translate-y-[13px] border-[1px] rounded-[5px] border-gray-500 w-[100px] h-[40px]'
-        onClick={handleMesActual}
-      >
+        onClick={handleMesActual}>
         <span className='text-2xl'>Hoy</span>
       </button>
-      <button className='-translate-y-[13px]' onClick={handleMesAnterior}>
+      <button
+        className='-translate-y-[13px]'
+        onClick={handleMesAnterior}>
         <ChevronLeftIcon size={'medium'} />
       </button>
-      <button className='-translate-y-[13px]' onClick={handleMesSiguiente}>
+      <button
+        className='-translate-y-[13px]'
+        onClick={handleMesSiguiente}>
         <ChevronRightIcon size={'medium'} />
       </button>
       <span className='text-6xl -translate-y-[13px]'>
-        {dayjs(new Date(dayjs().year(), monthIndex))
-          .locale('es')
-          .format('MMMM YYYY')}
+        {dayjs(new Date(dayjs().year(), monthIndex)).locale('es').format('MMMM YYYY')}
       </span>
     </header>
   )

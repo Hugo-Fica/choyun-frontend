@@ -15,11 +15,12 @@ import {
   NavigationMenuTrigger
 } from '../ui/navigation-menu'
 import { usePathname } from 'next/navigation'
+import { ButtonUser } from '../buttons/ButtonUser'
 
 export function NavigationMenuPage() {
   const path = usePathname()
   return (
-    <NavigationMenu className='bg-white fixed top-0 w-full z-10 shadow-md'>
+    <NavigationMenu className='bg-white fixed top-0 w-full z-10 shadow-md '>
       {/* Mobile Navbar (visible on small screens) */}
       <NavigationMenuList className='flex justify-between items-center px-4 lg:px-12 md:hidden'>
         <div className='flex items-center'>
@@ -44,14 +45,14 @@ export function NavigationMenuPage() {
       </NavigationMenuList>
 
       {/* Desktop Navbar (visible on medium and larger screens) */}
-      <NavigationMenuList className='hidden md:flex w-screen justify-between items-center px-2 sm:px-4 lg:px-12'>
+      <NavigationMenuList className='hidden md:flex w-[95vw] justify-between items-center'>
         <div className='flex items-center'>
           <NavigationMenuItem className='h-16 flex items-center'>
             <Link
               href={'/'}
               legacyBehavior>
               <Image
-                className='w-[80px] sm:w-[100px] md:w-[150px] lg:w-[200px]'
+                className='w-[80px] sm:w-[100px] md:w-[150px] lg:w-[200px] sm:pl-12'
                 src='/assets/logo_choyun-1.png'
                 alt='logo-choyun'
                 width={200}
@@ -68,14 +69,14 @@ export function NavigationMenuPage() {
               <NavigationMenuTrigger className='md:text-base text-xs'>
                 {link.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className='grid w-[250px] gap-3 p-4 md:w-[310px] grid-cols-1 lg:w-[350px] transition-all'>
+              <NavigationMenuContent className=''>
+                <ul className='grid  gap-3 p-4 md:w-[385px] grid-cols-1 lg:w-[390px] transition-all'>
                   {link.subLinks.map((sub) => (
                     <ListItem
                       key={sub.href}
                       href={sub.href}
                       className={`${
-                        path === sub.href ? 'bg-gray-300 text-white' : 'text-black'
+                        path === sub.href ? 'bg-gray-300 text-black' : 'text-black'
                       }  hover:text-gray-700 text-sm`}>
                       {sub.title}
                     </ListItem>
@@ -86,6 +87,7 @@ export function NavigationMenuPage() {
           ))}
         </div>
       </NavigationMenuList>
+      <ButtonUser />
     </NavigationMenu>
   )
 }
