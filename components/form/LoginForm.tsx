@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import useLogin from '@/hooks/useLogin'
 import { useToast } from '@/hooks/use-toast'
-import { useUserStore } from '@/store/user-store'
+import { useUserAuthStore } from '@/store/userAuthStore'
 import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
@@ -22,8 +22,9 @@ const formSchema = z.object({
 export const LoginForm = () => {
   const router = useRouter()
   const [pass, setPass] = useState(true)
-  const setUser = useUserStore((state) => state.setUser)
-  const user = useUserStore((state) => state.user)
+  const setUser = useUserAuthStore((state) => state.setUser)
+  const user = useUserAuthStore((state) => state.user)
+  const setValidated = useUserAuthStore((state) => state.setValidated)
   const { loginUser, getUser } = useLogin()
   const { toast } = useToast()
 
@@ -48,8 +49,7 @@ export const LoginForm = () => {
     mutationFn: getUser
   })
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { validated, user_id, message, exp } = await loginUserAsync(values)
-    console.log(user_id)
+    const { validated, user_id, message, exp, role_id } = await loginUserAsync(values)
     if (validated) {
       toast({
         title: message,
@@ -59,6 +59,7 @@ export const LoginForm = () => {
       })
       const { user } = await getUserAsync(user_id)
       setUser(user)
+      setValidated(exp, user_id, role_id)
       router.push('/')
     } else {
       toast({

@@ -1,4 +1,4 @@
-import { useEventosStore } from '@/store/eventos-store'
+import { useEventosStore } from '@/store/eventosStore'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react'
 import dayjs from 'dayjs'
 import Image from 'next/image'

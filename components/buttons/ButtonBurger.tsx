@@ -5,26 +5,35 @@ import { motion } from 'framer-motion'
 import { linksNavigate } from '@/helpers/links-navigate'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Accordion, AccordionContent, AccordionTrigger } from '../ui/accordion'
 import { AccordionItem } from '@radix-ui/react-accordion'
-import { useUserStore } from '@/store/user-store'
+import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '../../helpers/links-navigate'
+import useLogin from '@/hooks/useLogin'
 
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
   { title: 'Iniciar sesión', link: '/inicio-sesion' }
 ]
 export const ButtonBurger = () => {
-  const user = useUserStore((state) => state.user)
+  const { user, setUser, setValidated, user_id, role_id } = useUserAuthStore((state) => state)
+  const { logoutUser } = useLogin()
   const path = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
   }
-
+  const logout = () => {
+    setIsOpen(!isOpen)
+    setUser(null)
+    setValidated(0, '', '')
+    logoutUser(user_id, role_id)
+    router.push('/')
+  }
   // Detectar clics fuera del menú
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -110,29 +119,40 @@ export const ButtonBurger = () => {
                 </svg>
               </span>
             </AccordionTrigger>
-            {user !== null
-              ? linksNavigateAuth.map((link) => (
-                  <AccordionContent
-                    key={link.title}
-                    className={`${path === link.url && 'bg-gray-300 text-black'} p-[15px]`}>
-                    <Link
-                      href={link.url}
-                      onClick={toggleMenu}>
-                      {link.title}
-                    </Link>
-                  </AccordionContent>
-                ))
-              : routes.map((r) => (
-                  <AccordionContent
-                    key={r.link}
-                    className={`${path === r.link && 'bg-gray-300 text-black'} p-[15px]`}>
-                    <Link
-                      href={r.link}
-                      onClick={toggleMenu}>
-                      {r.title}
-                    </Link>
-                  </AccordionContent>
-                ))}
+            {user !== null ? (
+              <>
+                {linksNavigateAuth
+                  .filter((l) => l.auth === user.role)
+                  .map((link) => (
+                    <AccordionContent
+                      key={link.title}
+                      className={`${path === link.url && 'bg-gray-300 text-black'} p-[15px]`}>
+                      <Link
+                        href={link.url}
+                        onClick={toggleMenu}>
+                        {link.title}
+                      </Link>
+                    </AccordionContent>
+                  ))}
+                <AccordionContent
+                  className='bg-red-500 hover:bg-red-400 text-white hover:text-white pl-[15px] pt-[15px]'
+                  onClick={logout}>
+                  Cerrar sesión
+                </AccordionContent>
+              </>
+            ) : (
+              routes.map((r) => (
+                <AccordionContent
+                  key={r.link}
+                  className={`${path === r.link && 'bg-gray-300 text-black'} p-[15px]`}>
+                  <Link
+                    href={r.link}
+                    onClick={toggleMenu}>
+                    {r.title}
+                  </Link>
+                </AccordionContent>
+              ))
+            )}
           </AccordionItem>
           {linksNavigate.map((links) => (
             <AccordionItem

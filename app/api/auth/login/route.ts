@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 import { generarToken } from '@/lib/auth'
+
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
         },
         { status: 400 }
       )
-    const token = generarToken(usuario.id, usuario.role_id)
+    const token = generarToken(usuario.id, usuario.role_id, '7d')
     const response = NextResponse.json({ message: `Bienvenido ${usuario.names}`, token })
     response.cookies.set('token', token, {
       httpOnly: true,
@@ -33,7 +34,6 @@ export async function POST(req: NextRequest) {
 
     return response
   } catch (error) {
-    console.log(error)
     return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }
 }
