@@ -61,22 +61,21 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, email, names, lastnames, password, new_password, phone, role_id } = await req.json()
-    if (!id || !email || !names || !lastnames || !password || !new_password || !phone || !role_id) {
+    const { id, email, names, lastnames, phone, role_id } = await req.json()
+    if (!id) {
       return NextResponse.json(
-        { message: 'Error no se proporciono el nombre o descripción del usuario' },
+        { message: 'Error no se proporciono el id del usuario' },
         { status: 400 }
       )
     }
     const existeUsuario = await prisma.users.findFirst({ where: { id } })
     if (!existeUsuario) return NextResponse.json({ message: 'No existe el usuario' })
-    const isValidPassword = await bcrypt.compare(password, existeUsuario.password)
-    if (!isValidPassword) return NextResponse.json({ message: 'La contraseña no es correcta' })
-    const hashedPassword = await bcrypt.hash(new_password, 10)
+
     const editarUsuario = await prisma?.users.update({
       where: { id },
-      data: { email, names, lastnames, password: hashedPassword, phone, role_id }
+      data: { email, names, lastnames, phone, role_id }
     })
+
     if (!editarUsuario) return NextResponse.json({ message: 'No se pudo actualizar el usuario' })
     if (editarUsuario) return NextResponse.json({ message: 'Se actualizo el usuario' })
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -9,24 +9,28 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { CheckIcon, ChevronLeft, ChevronRight } from 'lucide-react'
 
-type DatePickerStep = 'year' | 'month' | 'day' | 'display'
+type DatePickerStep = 'año' | 'mes' | 'dia' | 'display'
 
-export const DatePicker = () => {
-  const [step, setStep] = useState<DatePickerStep>('year')
+type Props = {
+  onChange: (value: string) => void
+  setOpenDatePicker: Dispatch<SetStateAction<boolean>>
+}
+export const DatePicker = ({ onChange, setOpenDatePicker }: Props) => {
+  const [step, setStep] = useState<DatePickerStep>('año')
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedDay, setSelectedDay] = useState<number | null>(null)
 
   const handleYearSelect = (year: string) => {
     setSelectedYear(parseInt(year))
-    setStep('month')
+    setStep('mes')
   }
 
   const handleMonthSelect = (month: string) => {
     setSelectedMonth(parseInt(month))
-    setStep('day')
+    setStep('dia')
   }
 
   const handleDaySelect = (day: string) => {
@@ -38,26 +42,26 @@ export const DatePicker = () => {
     setSelectedYear(null)
     setSelectedMonth(null)
     setSelectedDay(null)
-    setStep('year')
+    setStep('año')
   }
 
   const goBack = () => {
-    if (step === 'month') {
-      setStep('year')
+    if (step === 'mes') {
+      setStep('año')
       setSelectedMonth(null)
-    } else if (step === 'day') {
-      setStep('month')
+    } else if (step === 'dia') {
+      setStep('mes')
       setSelectedDay(null)
     } else if (step === 'display') {
-      setStep('day')
+      setStep('dia')
     }
   }
 
   return (
-    <div className='w-64 p-4 border rounded-lg shadow-lg bg-background'>
-      {step === 'year' && <YearPicker onSelect={handleYearSelect} />}
-      {step === 'month' && <MonthPicker onSelect={handleMonthSelect} />}
-      {step === 'day' && (
+    <div className='w-[29rem] p-4 border rounded-lg shadow-lg bg-background'>
+      {step === 'año' && <YearPicker onSelect={handleYearSelect} />}
+      {step === 'mes' && <MonthPicker onSelect={handleMonthSelect} />}
+      {step === 'dia' && (
         <DayPicker
           onSelect={handleDaySelect}
           year={selectedYear!}
@@ -70,16 +74,18 @@ export const DatePicker = () => {
           month={selectedMonth!}
           day={selectedDay!}
           onReset={resetSelection}
+          onChange={onChange}
+          setOpenDatePicker={setOpenDatePicker}
         />
       )}
-      {step !== 'year' && (
+      {step !== 'año' && (
         <Button
           variant='ghost'
           size='sm'
           onClick={goBack}
           className='mt-2'>
           <ChevronLeft className='mr-2 h-4 w-4' />
-          Back
+          Atras
         </Button>
       )}
     </div>
@@ -93,9 +99,9 @@ const YearPicker = ({ onSelect }: { onSelect: (year: string) => void }) => {
   return (
     <Select onValueChange={onSelect}>
       <SelectTrigger>
-        <SelectValue placeholder='Select Year' />
+        <SelectValue placeholder='Selecciona un año' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='w-full'>
         {years.map((year) => (
           <SelectItem
             key={year}
@@ -110,26 +116,26 @@ const YearPicker = ({ onSelect }: { onSelect: (year: string) => void }) => {
 
 const MonthPicker = ({ onSelect }: { onSelect: (month: string) => void }) => {
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
   ]
 
   return (
     <Select onValueChange={(value) => onSelect((months.indexOf(value) + 1).toString())}>
       <SelectTrigger>
-        <SelectValue placeholder='Select Month' />
+        <SelectValue placeholder='Selecciona un mes' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='w-full'>
         {months.map((month, index) => (
           <SelectItem
             key={index}
@@ -157,9 +163,9 @@ const DayPicker = ({
   return (
     <Select onValueChange={onSelect}>
       <SelectTrigger>
-        <SelectValue placeholder='Select Day' />
+        <SelectValue placeholder='Selecciona un día' />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='w-full'>
         {days.map((day) => (
           <SelectItem
             key={day}
@@ -176,27 +182,39 @@ const DateDisplay = ({
   year,
   month,
   day,
-  onReset
+  onReset,
+  onChange,
+  setOpenDatePicker
 }: {
   year: number
   month: number
   day: number
   onReset: () => void
+  onChange: (value: string) => void
+  setOpenDatePicker: Dispatch<SetStateAction<boolean>>
 }) => {
-  const formattedDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
+  const formattedDate = new Date(year, month - 1, day).toLocaleDateString('es-CL', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
-
+  const handleDateChange = () => {
+    onChange(new Date(year, month - 1, day).toISOString())
+    setOpenDatePicker(false)
+  }
   return (
     <div className='text-center'>
-      <p className='mb-2'>Selected Date:</p>
+      <p className='mb-2'>Fecha seleccionada:</p>
       <p className='text-lg font-semibold mb-4'>{formattedDate}</p>
-      <Button onClick={onReset}>
-        Change Date
-        <ChevronRight className='ml-2 h-4 w-4' />
-      </Button>
+      <div className='gap-6 flex justify-center'>
+        <Button onClick={onReset}>
+          Cambiar fecha
+          <ChevronRight className='ml-2 h-4 w-4' />
+        </Button>
+        <Button onClick={handleDateChange}>
+          Guardar fecha <CheckIcon className='ml-2 h-4 w-4' />
+        </Button>
+      </div>
     </div>
   )
 }

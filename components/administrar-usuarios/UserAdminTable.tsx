@@ -40,6 +40,7 @@ import { useEffect, useState } from 'react'
 import { useUserStore } from '@/store/useUserStore'
 import { User } from '@/types/user'
 import { DataTablePagination } from '../DataTablePagination'
+import { CreateUserModal } from './CreateUserModal'
 
 export const UserAdminTable = () => {
   const [sorting, setSorting] = useState<SortingState>([])
@@ -151,6 +152,8 @@ export const UserAdminTable = () => {
 
   return (
     <div className='w-full'>
+      <CreateUserModal />
+
       <div className='flex items-center py-4 gap-4'>
         <Input
           placeholder='Filtrar nombres...'

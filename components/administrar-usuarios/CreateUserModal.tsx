@@ -8,11 +8,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
-import { format } from 'date-fns'
+import { format, set } from 'date-fns'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,6 +30,7 @@ import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { cn } from '@/lib/utils'
 import { CalendarIcon } from 'lucide-react'
+import { DatePicker } from '../DatePicker'
 
 const formSchema = z.object({
   names: z.string().min(10, { message: 'Los nombres son obligatorios' }),
@@ -42,6 +44,7 @@ const formSchema = z.object({
 
 export function CreateUserModal() {
   const [open, setOpen] = useState(false)
+  const [openDatePicker, setOpenDatePicker] = useState(false)
   const [newUser, setNewUser] = useState({
     names: '',
     lastnames: '',
@@ -95,13 +98,15 @@ export function CreateUserModal() {
       <DialogTrigger asChild>
         <Button variant='outline'>Crear usuario</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
-        <DialogDescription>Completa los campos para agregar un nuevo usuario</DialogDescription>
+      <DialogContent className='w-[90rem]'>
         <DialogHeader>
           <DialogTitle>Crear nuevo usuario</DialogTitle>
+          <DialogDescription>Completa los campos para agregar un nuevo usuario</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className=''>
             <FormField
               control={form.control}
               name='names'
@@ -170,45 +175,49 @@ export function CreateUserModal() {
               control={form.control}
               name='birthday'
               render={({ field }) => (
-                <FormItem className='flex flex-col'>
-                  <FormLabel>Date of birth</FormLabel>
-                  <Popover>
+                <FormItem>
+                  <FormLabel>Fecha de nacimiento</FormLabel>
+                  <Popover open={openDatePicker}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={'outline'}
+                          onClick={() => setOpenDatePicker(true)}
                           className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
+                            'w-full pl-3 text-left font-normal',
                             !field.value && 'text-muted-foreground'
                           )}>
-                          {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                          {field.value ? (
+                            new Date(field.value).toLocaleDateString('es-CL')
+                          ) : (
+                            <span>Selecciona una fecha</span>
+                          )}
                           <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent
-                      className='w-auto p-0'
-                      align='start'>
-                      <Calendar
-                        mode='single'
-                        {...field}
-                        selected={field.value}
-                        onSelect={(date) => field.onChange(date)}
-                        disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-                        captionLayout='dropdown' // Enables year and month dropdowns
-                        initialFocus
+                      className='w-full p-0'
+                      align='center'>
+                      <DatePicker
+                        onChange={field.onChange}
+                        setOpenDatePicker={setOpenDatePicker}
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>
-                    Your date of birth is used to calculate your age.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </form>
         </Form>
+        <DialogFooter>
+          <Button
+            type='submit'
+            className='ml-auto'>
+            Crear Usuario
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
