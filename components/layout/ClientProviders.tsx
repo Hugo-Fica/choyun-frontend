@@ -1,13 +1,18 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Toaster } from '../ui/toaster'
+import { Toaster } from 'sonner'
 
 const queryClient = new QueryClient()
 export function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster />
+      <Toaster
+        position='top-center'
+        expand={false}
+        richColors
+        closeButton
+      />
       {children}
     </QueryClientProvider>
   )

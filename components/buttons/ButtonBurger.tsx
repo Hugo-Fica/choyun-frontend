@@ -11,6 +11,7 @@ import { AccordionItem } from '@radix-ui/react-accordion'
 import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '../../helpers/links-navigate'
 import useLogin from '@/hooks/useLogin'
+import { toast } from 'sonner'
 
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
@@ -33,6 +34,7 @@ export const ButtonBurger = () => {
     setValidated(0, '', '')
     logoutUser(user_id, role_id)
     router.push('/')
+    toast.success('Sesión cerrada')
   }
   // Detectar clics fuera del menú
   useEffect(() => {

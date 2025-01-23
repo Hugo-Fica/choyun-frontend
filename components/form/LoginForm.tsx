@@ -11,9 +11,10 @@ import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import useLogin from '@/hooks/useLogin'
-import { useToast } from '@/hooks/use-toast'
 import { useUserAuthStore } from '@/store/userAuthStore'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 
 const formSchema = z.object({
   email: z.string().email({ message: 'El correo electrónico no es válido' }),
@@ -26,7 +27,6 @@ export const LoginForm = () => {
   const user = useUserAuthStore((state) => state.user)
   const setValidated = useUserAuthStore((state) => state.setValidated)
   const { loginUser, getUser } = useLogin()
-  const { toast } = useToast()
 
   const verPass = () => {
     setPass(!pass)
@@ -40,7 +40,11 @@ export const LoginForm = () => {
     }
   })
 
-  const { mutateAsync: loginUserAsync } = useMutation({
+  const {
+    mutateAsync: loginUserAsync,
+    isPending,
+    data
+  } = useMutation({
     mutationKey: ['login'],
     mutationFn: loginUser
   })
@@ -51,23 +55,13 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { validated, user_id, message, exp, role_id } = await loginUserAsync(values)
     if (validated) {
-      toast({
-        title: message,
-        className:
-          'fixed top-4 right-[20px] -transform-x-1/2 z-50 bg-green-500 max-w-[350px] text-white',
-        duration: 3000
-      })
+      toast.success(message)
       const { user } = await getUserAsync(user_id)
       setUser(user)
       setValidated(exp, user_id, role_id)
       router.push('/')
     } else {
-      toast({
-        title: message,
-        className:
-          'fixed top-4 right-[20px] -transform-x-1/2 z-50 bg-red-500 max-w-[350px] text-white',
-        duration: 3000
-      })
+      toast.warning(message)
     }
   }
   return (
@@ -135,7 +129,8 @@ export const LoginForm = () => {
         />
         <Button
           type='submit'
-          disabled={user !== null}>
+          disabled={isPending}>
+          {isPending && <Loader2 className='animate-spin' />}
           Iniciar sesión
         </Button>
       </form>

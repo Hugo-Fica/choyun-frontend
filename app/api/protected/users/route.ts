@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, email, names, lastnames, phone, role_id } = await req.json()
+    const { id, email, names, lastnames, phone, role, age } = await req.json()
     if (!id) {
       return NextResponse.json(
         { message: 'Error no se proporciono el id del usuario' },
@@ -73,30 +73,11 @@ export async function PUT(req: NextRequest) {
 
     const editarUsuario = await prisma?.users.update({
       where: { id },
-      data: { email, names, lastnames, phone, role_id }
+      data: { email, names, lastnames, phone, role_id: role, age }
     })
 
     if (!editarUsuario) return NextResponse.json({ message: 'No se pudo actualizar el usuario' })
     if (editarUsuario) return NextResponse.json({ message: 'Se actualizo el usuario' })
-  } catch (error) {
-    return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
-  }
-}
-
-export async function DELETE(req: NextRequest) {
-  try {
-    const { id } = await req.json()
-    if (!id) {
-      return NextResponse.json(
-        { message: 'Error no se proporciono el id del usuario' },
-        { status: 400 }
-      )
-    }
-    const existeUsuario = await prisma.users.findFirst({ where: { id } })
-    if (!existeUsuario) return NextResponse.json({ message: 'No existe el usuario' })
-    const eliminarUsuario = await prisma?.users.delete({ where: { id } })
-    if (!eliminarUsuario) return NextResponse.json({ message: 'No se pudo eliminar el usuario' })
-    if (eliminarUsuario) return NextResponse.json({ message: 'Se elimino el usuario' })
   } catch (error) {
     return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }

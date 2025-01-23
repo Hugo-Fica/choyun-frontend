@@ -1,4 +1,4 @@
-import { User } from '@/types/user'
+import { NewUser, User } from '@/types/user'
 import axios from 'axios'
 
 export const useUsers = () => {
@@ -7,5 +7,26 @@ export const useUsers = () => {
 
     return data.usuarios as User[]
   }
-  return { getUsers }
+  const getUser = async (user_id: string) => {
+    const { data } = await axios.get(`/api/protected/users/${user_id}`)
+
+    return data
+  }
+  const postUser = async (user: NewUser) => {
+    const { data } = await axios.post('/api/protected/users', user)
+
+    return data
+  }
+  const putUser = async (user: User) => {
+    const { data } = await axios.put(`/api/protected/users`, user)
+
+    return data
+  }
+  const deleteUser = async (user_id: string) => {
+    const { data } = await axios.delete(`/api/protected/users/${user_id}`)
+
+    return data
+  }
+
+  return { getUsers, getUser, postUser, putUser, deleteUser }
 }

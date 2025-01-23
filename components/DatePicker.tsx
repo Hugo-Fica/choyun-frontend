@@ -58,7 +58,7 @@ export const DatePicker = ({ onChange, setOpenDatePicker }: Props) => {
   }
 
   return (
-    <div className='w-[29rem] p-4 border rounded-lg shadow-lg bg-background'>
+    <div className='w-[19rem] p-4 border rounded-lg shadow-lg bg-background'>
       {step === 'año' && <YearPicker onSelect={handleYearSelect} />}
       {step === 'mes' && <MonthPicker onSelect={handleMonthSelect} />}
       {step === 'dia' && (
@@ -207,12 +207,17 @@ const DateDisplay = ({
       <p className='mb-2'>Fecha seleccionada:</p>
       <p className='text-lg font-semibold mb-4'>{formattedDate}</p>
       <div className='gap-6 flex justify-center'>
-        <Button onClick={onReset}>
+        <Button
+          onClick={onReset}
+          className='w-[8rem] text-xs'>
           Cambiar fecha
-          <ChevronRight className='ml-2 h-4 w-4' />
+          <ChevronRight className='ml-1 h-4 w-4 p-[0.1rem]' />
         </Button>
-        <Button onClick={handleDateChange}>
-          Guardar fecha <CheckIcon className='ml-2 h-4 w-4' />
+        <Button
+          onClick={handleDateChange}
+          className='w-[8rem] text-xs'>
+          Guardar fecha
+          <CheckIcon className='ml-1 h-4 w-4 p-[0.1rem]' />
         </Button>
       </div>
     </div>

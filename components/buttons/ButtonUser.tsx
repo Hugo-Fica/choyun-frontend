@@ -14,6 +14,7 @@ import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '@/helpers/links-navigate'
 import { Button } from '../ui/button'
 import useLogin from '@/hooks/useLogin'
+import { toast } from 'sonner'
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
   { title: 'Iniciar sesión', link: '/inicio-sesion' }
@@ -28,6 +29,7 @@ export const ButtonUser = () => {
     setUser(null)
     setValidated(0, '', '')
     logoutUser(user_id, role_id)
+    toast.success('Sesión cerrada')
     router.push('/')
   }
   return (
