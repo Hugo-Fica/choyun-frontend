@@ -8,8 +8,10 @@ export type LinkType = {
   subLinks: SubLinkType[]
 }
 
+export type UserRole = 'sup_admin' | 'admin' | 'user'
+
 export type LinkTypeAuth = {
   title: string
   url: string
-  auth: 'sup_admin' | 'user'
+  auth: UserRole[]
 }

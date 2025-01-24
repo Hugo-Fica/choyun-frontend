@@ -33,6 +33,7 @@ import {
 import { useUsers } from '@/hooks/useUsers'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useUserAuthStore } from '@/store/userAuthStore'
 
 const formSchema = z.object({
   names: z.string().min(6, { message: 'Los nombres son obligatorios' }),
@@ -45,6 +46,7 @@ const formSchema = z.object({
 })
 
 export function UserCreateModal() {
+  const role = useUserAuthStore((state) => state.user?.role)
   const queryCLient = useQueryClient()
   const [open, setOpen] = useState(false)
   const [openDatePicker, setOpenDatePicker] = useState(false)
@@ -108,7 +110,8 @@ export function UserCreateModal() {
         <DialogTrigger asChild>
           <Button
             variant='outline'
-            className='max-w-[15rem] w-full'>
+            className='max-w-[15rem] w-full'
+            disabled={role?.includes('user')}>
             Crear usuario
           </Button>
         </DialogTrigger>
@@ -119,7 +122,7 @@ export function UserCreateModal() {
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className='grid grid-cols-2 gap-4'>
+              <div className='grid md:grid-cols-2 xs:grid-cols-1 gap-4'>
                 <FormField
                   control={form.control}
                   name='names'
@@ -278,7 +281,7 @@ export function UserCreateModal() {
               </div>
               <DialogFooter className=''>
                 <Button
-                  className='mt-3'
+                  className='mt-3 bg-green-500 hover:bg-green-700'
                   disabled={isPending}>
                   {isPending && <Loader2 className='animate-spin' />}
                   Crear Usuario

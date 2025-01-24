@@ -1,3 +1,5 @@
+import { UserRole } from './links'
+
 export type UserLogin = {
   email: string
   password: string
@@ -11,7 +13,7 @@ export type User = {
   birthday: string
   age: number
   phone: string
-  role: string
+  role: UserRole
 }
 
 export type UserAuthStore = {

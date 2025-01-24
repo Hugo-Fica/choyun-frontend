@@ -15,6 +15,7 @@ import { linksNavigateAuth } from '@/helpers/links-navigate'
 import { Button } from '../ui/button'
 import useLogin from '@/hooks/useLogin'
 import { toast } from 'sonner'
+
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
   { title: 'Iniciar sesión', link: '/inicio-sesion' }
@@ -32,6 +33,7 @@ export const ButtonUser = () => {
     toast.success('Sesión cerrada')
     router.push('/')
   }
+
   return (
     <NavigationMenuList className='hidden md:flex justify-between items-centers pr-10'>
       <div className='flex items-center'>
@@ -56,7 +58,7 @@ export const ButtonUser = () => {
               {user !== null ? (
                 <>
                   {linksNavigateAuth
-                    .filter((l) => l.auth === user.role)
+                    .filter((l) => l.auth.includes(user.role))
                     .map((l) => (
                       <ListItem
                         key={l.title}
