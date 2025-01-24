@@ -119,7 +119,7 @@ export function UserCreateModal() {
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className='grid grid-cols-2 gap-4'>
+              <div className='grid md:grid-cols-2 xs:grid-cols-1 gap-4'>
                 <FormField
                   control={form.control}
                   name='names'
@@ -278,7 +278,7 @@ export function UserCreateModal() {
               </div>
               <DialogFooter className=''>
                 <Button
-                  className='mt-3'
+                  className='mt-3 bg-green-500 hover:bg-green-700'
                   disabled={isPending}>
                   {isPending && <Loader2 className='animate-spin' />}
                   Crear Usuario
