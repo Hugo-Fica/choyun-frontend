@@ -42,6 +42,7 @@ import { UserCreateModal } from './UserCreateModal'
 import { UserDeleteModal } from './UserDeleteModal'
 import { UserEditModal } from './UserEditModal'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
+import { useUserAuthStore } from '@/store/userAuthStore'
 
 export const UserAdminTable = () => {
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -51,6 +52,7 @@ export const UserAdminTable = () => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const role = useUserAuthStore((state) => state.user?.role)
 
   const { getUsers, getUser } = useUsers()
   const { getRoles } = useRoles()
@@ -150,6 +152,7 @@ export const UserAdminTable = () => {
           <Button
             variant='ghost'
             size='icon'
+            disabled={role?.includes('user')}
             onClick={async () => {
               await getUserAsync(row.original.id)
               setIdUser(row.original.id)
@@ -163,6 +166,7 @@ export const UserAdminTable = () => {
           <Button
             variant='ghost'
             size='icon'
+            disabled={role?.includes('user')}
             onClick={() => {
               setIdUser(row.original.id)
               setDeleteOpen(true)

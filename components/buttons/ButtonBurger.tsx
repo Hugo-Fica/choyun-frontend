@@ -124,7 +124,7 @@ export const ButtonBurger = () => {
             {user !== null ? (
               <>
                 {linksNavigateAuth
-                  .filter((l) => l.auth === user.role)
+                  .filter((l) => l.auth.includes(user.role))
                   .map((link) => (
                     <AccordionContent
                       key={link.title}
