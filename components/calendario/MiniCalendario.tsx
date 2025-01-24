@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react'
-import { useEventosStore } from '@/store/eventos-store'
+import { useEventosStore } from '@/store/eventosStore'
 import { getMonth } from '@/helpers/utils'
 
 export const MiniCalendario = () => {

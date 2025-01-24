@@ -11,4 +11,5 @@ export type LinkType = {
 export type LinkTypeAuth = {
   title: string
   url: string
+  auth: 'sup_admin' | 'user'
 }

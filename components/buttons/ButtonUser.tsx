@@ -9,21 +9,28 @@ import {
 } from '../ui/navigation-menu'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
-import { usePathname } from 'next/navigation'
-import { useUserStore } from '@/store/user-store'
+import { usePathname, useRouter } from 'next/navigation'
+import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '@/helpers/links-navigate'
 import { Button } from '../ui/button'
-
+import useLogin from '@/hooks/useLogin'
+import { toast } from 'sonner'
 const routes = [
   { title: 'Crear cuenta', link: '/crear-cuenta' },
   { title: 'Iniciar sesión', link: '/inicio-sesion' }
 ]
 export const ButtonUser = () => {
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  const { setUser, setValidated, user, role_id, user_id } = useUserAuthStore((state) => state)
+  const { logoutUser } = useLogin()
   const path = usePathname()
+  const router = useRouter()
+
   const logout = () => {
     setUser(null)
+    setValidated(0, '', '')
+    logoutUser(user_id, role_id)
+    toast.success('Sesión cerrada')
+    router.push('/')
   }
   return (
     <NavigationMenuList className='hidden md:flex justify-between items-centers pr-10'>
@@ -48,16 +55,18 @@ export const ButtonUser = () => {
             <ul className='grid w-[250px] gap-3 p-4 md:w-[310px] grid-cols-1 lg:w-[350px] transition-all'>
               {user !== null ? (
                 <>
-                  {linksNavigateAuth.map((l) => (
-                    <ListItem
-                      key={l.title}
-                      href={l.url}
-                      className={`${
-                        path === l.url && 'bg-gray-300 text-black'
-                      }  hover:text-gray-700 text-sm`}>
-                      {l.title}
-                    </ListItem>
-                  ))}
+                  {linksNavigateAuth
+                    .filter((l) => l.auth === user.role)
+                    .map((l) => (
+                      <ListItem
+                        key={l.title}
+                        href={l.url}
+                        className={`${
+                          path === l.url && 'bg-gray-300 text-black'
+                        }  hover:text-gray-700 text-sm`}>
+                        {l.title}
+                      </ListItem>
+                    ))}
                   <Button
                     className='bg-red-500 hover:bg-red-400 text-white hover:text-white'
                     onClick={logout}>

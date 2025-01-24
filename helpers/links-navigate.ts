@@ -41,7 +41,8 @@ export const linksNavigate: LinkType[] = [
   }
 ]
 export const linksNavigateAuth: LinkTypeAuth[] = [
-  { title: 'Administrar usuarios', url: 'protected/administrar-usuarios' }
+  { title: 'Administrar usuarios', url: '/auth/administrar-usuarios', auth: 'sup_admin' },
+  { title: 'Volver al inicio', url: '/', auth: 'user' }
 ]
 export const publicRoutes = [
   'inicio-sesion',

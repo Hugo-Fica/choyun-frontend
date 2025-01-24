@@ -4,6 +4,7 @@ export type UserLogin = {
 }
 
 export type User = {
+  id: string
   email: string
   names: string
   lastnames: string
@@ -13,10 +14,11 @@ export type User = {
   role: string
 }
 
-export type UserStore = {
+export type UserAuthStore = {
   exp: number
   user_id: string
   role_id: string
   user: User | null
   setUser: (user: User | null) => void
+  setValidated: (exp: number, user_id: string, role_id: string) => void
 }

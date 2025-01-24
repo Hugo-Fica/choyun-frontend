@@ -23,7 +23,26 @@ export async function GET(request: NextRequest) {
     }
     return NextResponse.json(userFinal)
   } catch (error) {
-    console.log(error)
+    return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const id = request.nextUrl.pathname.split('/')[4]
+
+    if (!id) {
+      return NextResponse.json(
+        { message: 'Error no se proporciono el id del usuario' },
+        { status: 400 }
+      )
+    }
+    const existeUsuario = await prisma.users.findFirst({ where: { id } })
+    if (!existeUsuario) return NextResponse.json({ message: 'No existe el usuario' })
+    const eliminarUsuario = await prisma?.users.delete({ where: { id } })
+    if (!eliminarUsuario) return NextResponse.json({ message: 'No se pudo eliminar el usuario' })
+    if (eliminarUsuario) return NextResponse.json({ message: 'Se elimino el usuario' })
+  } catch (error) {
     return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }
 }
