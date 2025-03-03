@@ -6,10 +6,10 @@ import { linksNavigate } from '@/helpers/links-navigate'
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Accordion, AccordionContent, AccordionTrigger } from '../ui/accordion'
+import { Accordion, AccordionContent, AccordionTrigger } from '../../ui/accordion'
 import { AccordionItem } from '@radix-ui/react-accordion'
 import { useUserAuthStore } from '@/store/userAuthStore'
-import { linksNavigateAuth } from '../../helpers/links-navigate'
+import { linksNavigateAuth } from '../../../helpers/links-navigate'
 import useLogin from '@/hooks/useLogin'
 import { toast } from 'sonner'
 

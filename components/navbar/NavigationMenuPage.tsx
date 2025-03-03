@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import { ButtonBurger } from '../buttons/ButtonBurger'
+import { ButtonBurger } from '../buttons/login/ButtonBurger'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,7 +15,7 @@ import {
   NavigationMenuTrigger
 } from '../ui/navigation-menu'
 import { usePathname } from 'next/navigation'
-import { ButtonUser } from '../buttons/ButtonUser'
+import { ButtonUser } from '../buttons/login/ButtonUser'
 
 export function NavigationMenuPage() {
   const path = usePathname()

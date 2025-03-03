@@ -6,13 +6,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger
-} from '../ui/navigation-menu'
+} from '../../ui/navigation-menu'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '@/helpers/links-navigate'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import useLogin from '@/hooks/useLogin'
 import { toast } from 'sonner'
 
