@@ -4,7 +4,6 @@ import axios from 'axios'
 export const useUsers = () => {
   const getUsers = async () => {
     const { data } = await axios.get('/api/protected/users')
-
     return data.usuarios as User[]
   }
   const getUser = async (user_id: string) => {

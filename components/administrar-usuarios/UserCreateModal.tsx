@@ -79,9 +79,6 @@ export function UserCreateModal() {
       names: values.names.toLowerCase(),
       lastnames: values.lastnames.toLowerCase(),
       email: values.email.toLowerCase(),
-      password: `${values.names.slice(0, 1).toUpperCase()}${values.lastnames
-        .split(' ')[0]
-        .toLowerCase()}#${values.age}`,
       age: values.age,
       birthday: values.birthday,
       phone: values.phone,

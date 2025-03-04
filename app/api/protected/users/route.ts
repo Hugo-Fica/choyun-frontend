@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
+import { generateOTP } from '@/lib/ot'
 
 export async function GET() {
   try {
@@ -27,8 +28,8 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, names, lastnames, password, age, phone, role_id, birthday } = await req.json()
-    if (!email || !names || !lastnames || !password || !age || !phone || !role_id || !birthday) {
+    const { email, names, lastnames, age, phone, role_id, birthday } = await req.json()
+    if (!email || !names || !lastnames || !age || !phone || !role_id || !birthday) {
       return NextResponse.json(
         {
           message:
@@ -40,20 +41,30 @@ export async function POST(req: NextRequest) {
     const existeUsuario = await prisma.users.findFirst({ where: { email } })
     if (existeUsuario)
       return NextResponse.json({ message: 'El correo electrónico ya se encuentra registrado' })
-    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const expiresAt = dayjs().add(5, 'minute').toDate()
     const nuevoUsuario = await prisma?.users.create({
       data: {
         email,
         names,
         lastnames,
-        password: hashedPassword,
         age,
         phone,
         role_id,
         birthday: new Date(birthday)
       }
     })
-    if (nuevoUsuario) return NextResponse.json({ message: 'Usuario creado' })
+    if (nuevoUsuario) {
+      await prisma.oTP.deleteMany({ where: { user_id: nuevoUsuario?.id } })
+      await prisma.oTP.create({
+        data: {
+          code: generateOTP(),
+          expiresAt,
+          user_id: nuevoUsuario?.id
+        }
+      })
+      return NextResponse.json({ message: 'Usuario creado' })
+    }
   } catch (error) {
     return NextResponse.json({ error: 'Hubo un error' }, { status: 500 })
   }
