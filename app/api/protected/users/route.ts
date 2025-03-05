@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
-import { generateOTP } from '@/lib/ot'
+import { generateOTP } from '@/utils/otp'
+import { generarToken } from '@/utils/auth'
 
 export async function GET() {
   try {
@@ -55,15 +56,17 @@ export async function POST(req: NextRequest) {
       }
     })
     if (nuevoUsuario) {
-      await prisma.oTP.deleteMany({ where: { user_id: nuevoUsuario?.id } })
-      await prisma.oTP.create({
+      await prisma.otp.deleteMany({ where: { user_id: nuevoUsuario?.id } })
+      const token = generarToken(nuevoUsuario?.id, nuevoUsuario?.role_id, '300s')
+      const userOtp = await prisma.otp.create({
         data: {
           code: generateOTP(),
           expiresAt,
-          user_id: nuevoUsuario?.id
+          user_id: nuevoUsuario?.id,
+          token
         }
       })
-      return NextResponse.json({ message: 'Usuario creado' })
+      return NextResponse.json({ message: 'Usuario creado', otp: userOtp })
     }
   } catch (error) {
     return NextResponse.json({ error: 'Hubo un error' }, { status: 500 })

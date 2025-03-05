@@ -14,7 +14,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { calcularEdad, cn } from '@/lib/utils'
+import { calcularEdad, cn } from '@/utils/calculate'
 import { CalendarIcon, Loader2 } from 'lucide-react'
 import { DatePicker } from '../DatePicker'
 import {

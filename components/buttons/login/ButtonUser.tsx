@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/calculate'
 import { usePathname, useRouter } from 'next/navigation'
 import { useUserAuthStore } from '@/store/userAuthStore'
 import { linksNavigateAuth } from '@/helpers/links-navigate'

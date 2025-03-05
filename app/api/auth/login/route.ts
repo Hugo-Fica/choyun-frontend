@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
-import { generarToken } from '@/lib/auth'
+import { generarToken } from '@/utils/auth'
 
 export async function POST(req: NextRequest) {
   try {

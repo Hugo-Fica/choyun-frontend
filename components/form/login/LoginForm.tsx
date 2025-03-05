@@ -31,7 +31,6 @@ export const LoginForm = () => {
   const router = useRouter()
   const [pass, setPass] = useState(true)
   const setUser = useUserAuthStore((state) => state.setUser)
-  const user = useUserAuthStore((state) => state.user)
   const setValidated = useUserAuthStore((state) => state.setValidated)
   const { loginUser, getUser } = useLogin()
 
@@ -47,11 +46,7 @@ export const LoginForm = () => {
     }
   })
 
-  const {
-    mutateAsync: loginUserAsync,
-    isPending,
-    data
-  } = useMutation({
+  const { mutateAsync: loginUserAsync, isPending } = useMutation({
     mutationKey: ['login'],
     mutationFn: loginUser
   })

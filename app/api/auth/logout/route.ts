@@ -1,4 +1,4 @@
-import { generarToken } from '@/lib/auth'
+import { generarToken } from '@/utils/auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {

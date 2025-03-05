@@ -1,7 +1,7 @@
 'use client'
 
 import { linksNavigate } from '@/helpers/links-navigate'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/calculate'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
