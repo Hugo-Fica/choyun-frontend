@@ -67,21 +67,13 @@ export const CreatePassword = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const decoded = validarTokenClient(searchParams.get('token') as string)
-    console.log(decoded)
-    if (!decoded) {
-      toast.error('Token no válido')
-      router.push('/')
-      return
-    }
-
     const { message } = await createPasswordAsync({
       password: values.newPassword,
-      user_id: decoded.user_id
+      tokenPass: searchParams.get('token') as string
     })
     if (message?.includes('creada')) {
       toast.success(message)
-      router.push('/')
+      router.push('/inicio-sesion')
       return
     }
     toast.error(message)

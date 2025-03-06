@@ -14,7 +14,7 @@ export const useValidate = () => {
       return { message: axiosError.response?.data.message, token: '' }
     }
   }
-  const createPassword = async (dataValidate: { user_id: string; password: string }) => {
+  const createPassword = async (dataValidate: { tokenPass: string; password: string }) => {
     try {
       const { data } = await axios.post('/api/auth/password', { dataValidate })
       return data as { message: string }
