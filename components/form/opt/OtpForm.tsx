@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { useValidate } from '@/hooks/useValidate'
+import { cn } from '@/utils/calculate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { Loader } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -74,8 +76,7 @@ export const OtpForm = () => {
                   <InputOTP
                     maxLength={6}
                     {...field}
-                    // disabled={verifyingOTP}
-                  >
+                    disabled={isPending}>
                     <InputOTPGroup>
                       {Array.from({ length: 6 }).map((_, index) => (
                         <InputOTPSlot
@@ -86,9 +87,7 @@ export const OtpForm = () => {
                     </InputOTPGroup>
                   </InputOTP>
                 </FormControl>
-                <FormMessage className='mx-auto max-w-xs text-center'>
-                  {/* {invalidOTPCode && 'Código de verificación incorrecto'} */}
-                </FormMessage>
+                <FormMessage className='mx-auto max-w-xs text-center'></FormMessage>
               </FormItem>
             )}
           />
@@ -98,9 +97,8 @@ export const OtpForm = () => {
               type='submit'
               size='sm'
               className='w-full sm:w-3/4'
-              // disabled={verifyingOTP}
-            >
-              {/* {verifyingOTP ? (
+              disabled={isPending}>
+              {isPending ? (
                 <>
                   <Loader
                     size={16}
@@ -110,7 +108,7 @@ export const OtpForm = () => {
                 </>
               ) : (
                 'Verificar'
-              )} */}
+              )}
             </Button>
 
             <Button
@@ -121,8 +119,7 @@ export const OtpForm = () => {
               asChild>
               <Link
                 href='/'
-                // className={cn(verifyingOTP && 'pointer-events-none opacity-50')}
-              >
+                className={cn(isPending && 'pointer-events-none opacity-50')}>
                 Atrás
               </Link>
             </Button>
