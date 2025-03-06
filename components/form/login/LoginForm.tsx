@@ -1,9 +1,6 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { Button } from '../ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Image from 'next/image'
@@ -15,6 +12,16 @@ import { useUserAuthStore } from '@/store/userAuthStore'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const formSchema = z.object({
   email: z.string().email({ message: 'El correo electrónico no es válido' }),
@@ -24,7 +31,6 @@ export const LoginForm = () => {
   const router = useRouter()
   const [pass, setPass] = useState(true)
   const setUser = useUserAuthStore((state) => state.setUser)
-  const user = useUserAuthStore((state) => state.user)
   const setValidated = useUserAuthStore((state) => state.setValidated)
   const { loginUser, getUser } = useLogin()
 
@@ -40,11 +46,7 @@ export const LoginForm = () => {
     }
   })
 
-  const {
-    mutateAsync: loginUserAsync,
-    isPending,
-    data
-  } = useMutation({
+  const { mutateAsync: loginUserAsync, isPending } = useMutation({
     mutationKey: ['login'],
     mutationFn: loginUser
   })

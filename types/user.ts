@@ -7,13 +7,13 @@ export type User = {
   age: number
   phone: string
   role: string
+  valid?: boolean
 }
 
 export type NewUser = {
   email: string
   names: string
   lastnames: string
-  password: string
   age: number
   birthday: string
   phone: string

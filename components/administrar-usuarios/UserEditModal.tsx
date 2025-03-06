@@ -14,7 +14,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { calcularEdad, cn } from '@/lib/utils'
+import { calcularEdad, cn } from '@/utils/calculate'
 import { CalendarIcon, Loader2 } from 'lucide-react'
 import { DatePicker } from '../DatePicker'
 import {
@@ -106,10 +106,8 @@ export const UserEditModal = ({ open, setOpen, user, userId }: Props) => {
         onOpenChange={handleModal}>
         <DialogContent className='max-w-2xl'>
           <DialogHeader>
-            <DialogTitle>Eliminar usuario</DialogTitle>
-            <DialogDescription>
-              ¿Estás seguro de que quieres eliminar este usuario?
-            </DialogDescription>
+            <DialogTitle>Editar usuario</DialogTitle>
+            <DialogDescription>Completa los campos para editar un usuario</DialogDescription>
           </DialogHeader>
 
           <Form {...form}>

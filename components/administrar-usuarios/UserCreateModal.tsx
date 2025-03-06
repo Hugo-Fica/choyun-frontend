@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { calcularEdad, cn } from '@/lib/utils'
+import { calcularEdad, cn } from '@/utils/calculate'
 import { CalendarIcon, Loader2 } from 'lucide-react'
 import { DatePicker } from '../DatePicker'
 import { useRolesStore } from '@/store/useRolesStore'
@@ -34,6 +34,7 @@ import { useUsers } from '@/hooks/useUsers'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useUserAuthStore } from '@/store/userAuthStore'
+import { sendOtpMail } from '@/utils/emails'
 
 const formSchema = z.object({
   names: z.string().min(6, { message: 'Los nombres son obligatorios' }),
@@ -79,9 +80,6 @@ export function UserCreateModal() {
       names: values.names.toLowerCase(),
       lastnames: values.lastnames.toLowerCase(),
       email: values.email.toLowerCase(),
-      password: `${values.names.slice(0, 1).toUpperCase()}${values.lastnames
-        .split(' ')[0]
-        .toLowerCase()}#${values.age}`,
       age: values.age,
       birthday: values.birthday,
       phone: values.phone,
@@ -91,6 +89,18 @@ export function UserCreateModal() {
 
     if (isPosted) {
       toast.success('Usuario creado exitosamente')
+      const { succes } = await sendOtpMail(
+        `${newUser.names} ${newUser.lastnames}`,
+        newUser.email,
+        '05:00',
+        isPosted.otp.code,
+        isPosted.otp.token
+      )
+      if (succes) {
+        toast.success('Se envió el código de verificación')
+      } else {
+        toast.error('Error al enviar el código de verificación')
+      }
       form.reset()
       setOpen(false)
     } else {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
-import { generarToken } from '@/lib/auth'
+import { generarToken } from '@/utils/auth'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,8 +13,11 @@ export async function POST(req: NextRequest) {
       )
     }
     const usuario = await prisma.users.findFirst({ where: { email } })
-    if (!usuario) return NextResponse.json({ message: 'El correo electrónico no existe' })
-    const isValidPassword = await bcrypt.compare(password, usuario?.password)
+    if (!usuario)
+      return NextResponse.json({ message: 'El correo electrónico no existe' }, { status: 400 })
+    if (!usuario.password)
+      return NextResponse.json({ message: 'Error en las credenciales' }, { status: 400 })
+    const isValidPassword = bcrypt.compare(password, usuario.password)
     if (!isValidPassword)
       return NextResponse.json(
         {

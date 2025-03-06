@@ -20,15 +20,48 @@ model Roles{
   users Users[]
 }
 
+model Day{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  day_name String
+  schedules Schedule[]
+}
+
+model Schedule{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  start_time String
+  end_time String
+  day_id String @db.ObjectId
+  day Day @relation(fields: [day_id], references: [id])
+  class Class[]
+}
+model Class{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  schedule_id String @db.ObjectId
+  schedule Schedule @relation(fields: [schedule_id], references: [id])
+}
+
+model Otp {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  code String
+  expiresAt DateTime
+  createAt DateTime @default(now())
+  user_id String @unique @db.ObjectId
+  user Users @relation(fields: [user_id],references: [id], onDelete: Cascade)
+  token String @unique
+}
+
 model Users {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   email String  @unique
   names  String?
   lastnames String?
-  password String
+  password String?
   birthday DateTime?
   age Int?
   phone String?
+  otp Otp?
+  valid Boolean @default(false)
   role_id String @db.ObjectId
   role Roles @relation(fields: [role_id], references: [id])
 }
