@@ -35,7 +35,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useUserAuthStore } from '@/store/userAuthStore'
 import { sendOtpMail } from '@/utils/emails'
-import dayjs from 'dayjs'
 
 const formSchema = z.object({
   names: z.string().min(6, { message: 'Los nombres son obligatorios' }),
@@ -93,7 +92,7 @@ export function UserCreateModal() {
       const { succes } = await sendOtpMail(
         `${newUser.names} ${newUser.lastnames}`,
         newUser.email,
-        dayjs(isPosted.otp.expiresAt).format('mm/ss'),
+        '05:00',
         isPosted.otp.code,
         isPosted.otp.token
       )

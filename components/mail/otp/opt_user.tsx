@@ -21,7 +21,17 @@ type Props = {
 }
 
 export const OtpUser = ({ user, timeExpires, code, token }: Props) => {
-  const url = `${process.env.NEXT_PUBLIC_URL && 'http://localhost:3000'}/validate-otp?${token}`
+  const url = `${
+    process.env.NODE_ENV === 'production'
+      ? 'https://www.fundacionchoyun.cl'
+      : 'http://localhost:3000'
+  }/validate-otp?token=${token}`
+
+  const img = `${
+    process.env.NODE_ENV === 'production'
+      ? 'https://www.fundacionchoyun.cl'
+      : 'http://localhost:3000'
+  }/public/assets/logo_choyun-1.png`
   return (
     <Html>
       <Head />
@@ -32,7 +42,7 @@ export const OtpUser = ({ user, timeExpires, code, token }: Props) => {
             <Section className='bg-white border border-black rounded-lg p-8 shadow-sm'>
               <Heading className='text-2xl font-bold text-black mb-4 flex justify-center flex-col items-center'>
                 <Img
-                  src='/assets/logo_choyun-1.png'
+                  src={img}
                   alt='logo-choyun'
                   width={100}
                   height={100}

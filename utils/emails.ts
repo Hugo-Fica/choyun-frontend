@@ -18,13 +18,12 @@ export const sendOtpMail = async (
   token: string
 ) => {
   try {
-    const resp = await resend.emails.send({
+    await resend.emails.send({
       from: 'Fundación Choyün <no-reply@fundacionchoyun.cl>',
       to: email,
       subject: 'Verifica tu cuenta en Fundación Choyün',
       react: OtpUser({ user, timeExpires, code, token })
     })
-    console.log(resp)
     return { succes: true }
   } catch (error) {
     console.log(error)

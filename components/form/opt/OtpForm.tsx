@@ -3,10 +3,14 @@
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
+import { useValidate } from '@/hooks/useValidate'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -14,6 +18,10 @@ const formSchema = z.object({
 })
 
 export const OtpForm = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { validateOTP } = useValidate()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,8 +29,26 @@ export const OtpForm = () => {
     }
   })
 
+  const { mutateAsync: validateOTPAsync, isPending } = useMutation({
+    mutationKey: ['validateOTP'],
+    mutationFn: validateOTP
+  })
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    const { token, message } = await validateOTPAsync({
+      tokenOTP: searchParams.get('token') as string,
+      OTP: values.otp
+    })
+    if (!token) {
+      toast.error(message)
+      router.push('/')
+      return
+    }
+    if (token) {
+      toast.success(message)
+      router.push(`/validate-otp/create-password?token=${token}`)
+      return
+    }
   }
   return (
     <div className='flex flex-col items-center justify-center gap-y-4'>

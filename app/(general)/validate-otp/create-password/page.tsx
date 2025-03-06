@@ -1,3 +1,5 @@
-export default function CreatePassword() {
-  return <span>crear contraseña</span>
+import { CreatePassword } from '@/components/form/opt/CreatePassword'
+
+export default function CreatePasswordPage() {
+  return <CreatePassword />
 }
