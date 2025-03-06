@@ -7,7 +7,7 @@ export type User = {
   age: number
   phone: string
   role: string
-  valid: boolean
+  valid?: boolean
 }
 
 export type NewUser = {
