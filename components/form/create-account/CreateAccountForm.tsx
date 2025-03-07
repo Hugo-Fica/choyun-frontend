@@ -100,7 +100,7 @@ export const CreateAccountForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='grid md:grid-cols-2 xs:grid-cols-1 gap-4 justify-self-center'>
+        <div className='grid md:grid-cols-2 xs:grid-cols-1 gap-4 justify-self-center mt-20'>
           <Image
             className='mb-10 col-span-full mx-auto'
             src='/assets/logo_choyun-1.png'

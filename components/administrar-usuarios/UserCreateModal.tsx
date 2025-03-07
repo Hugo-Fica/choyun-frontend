@@ -113,6 +113,7 @@ export function UserCreateModal() {
 
   const handleModal = () => {
     setOpen(!open)
+    setOpenDatePicker(false)
     form.reset()
   }
   return (
@@ -128,7 +129,7 @@ export function UserCreateModal() {
             Crear usuario
           </Button>
         </DialogTrigger>
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className='max-w-2xl max-h-[90vh] overflow-y-auto'>
           <DialogHeader>
             <DialogTitle>Crear nuevo usuario</DialogTitle>
             <DialogDescription>Completa los campos para agregar un nuevo usuario</DialogDescription>
@@ -292,9 +293,17 @@ export function UserCreateModal() {
                   )}
                 />
               </div>
-              <DialogFooter className=''>
+              <DialogFooter className='flex mt-3 flex-row w-full gap-5 justify-center'>
                 <Button
-                  className='mt-3 bg-green-500 hover:bg-green-700'
+                  type='button'
+                  className=' bg-yellow-500 hover:bg-yellow-700 w-full'
+                  disabled={isPending || sendMail}
+                  onClick={handleModal}>
+                  {(isPending || sendMail) && <Loader2 className='animate-spin' />}
+                  Cancelar
+                </Button>
+                <Button
+                  className=' bg-green-500 hover:bg-green-700 w-full'
                   disabled={isPending || sendMail}>
                   {(isPending || sendMail) && <Loader2 className='animate-spin' />}
                   Crear Usuario

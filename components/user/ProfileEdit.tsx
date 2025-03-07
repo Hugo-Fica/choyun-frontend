@@ -75,7 +75,7 @@ export const ProfileEdit = ({ open, setOpen }: Props) => {
       <Dialog
         open={open}
         onOpenChange={handleModal}>
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className='max-w-2xl max-h-[90vh] overflow-y-auto'>
           <DialogHeader>
             <DialogTitle>{`${user?.names} ${user?.lastnames}`}</DialogTitle>
             <DialogDescription>Completa los campos para editar tu perfil</DialogDescription>
