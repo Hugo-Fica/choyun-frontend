@@ -104,7 +104,7 @@ export const UserEditModal = ({ open, setOpen, user, userId }: Props) => {
       <Dialog
         open={open}
         onOpenChange={handleModal}>
-        <DialogContent className='max-w-2xl'>
+        <DialogContent className='max-w-2xl max-h-[90vh] overflow-y-auto'>
           <DialogHeader>
             <DialogTitle>Editar usuario</DialogTitle>
             <DialogDescription>Completa los campos para editar un usuario</DialogDescription>
@@ -271,19 +271,19 @@ export const UserEditModal = ({ open, setOpen, user, userId }: Props) => {
                   )}
                 />
               </div>
-              <DialogFooter className=''>
+              <DialogFooter className='flex mt-3 flex-row w-full gap-5 justify-center'>
                 <Button
-                  className='mt-3 bg-green-500  hover:bg-green-700'
-                  disabled={isPending}>
-                  {isPending && <Loader2 className='animate-spin' />}
-                  Actualizar Usuario
-                </Button>
-                <Button
-                  className='mt-3  bg-blue-500  hover:bg-blue-700'
+                  className='mt-3  bg-yellow-500  hover:bg-yellow-700 w-full'
                   onClick={() => setOpen(false)}
                   disabled={isPending}>
                   {isPending && <Loader2 className='animate-spin' />}
                   Cancelar
+                </Button>
+                <Button
+                  className='mt-3 bg-green-500  hover:bg-green-700 w-full'
+                  disabled={isPending}>
+                  {isPending && <Loader2 className='animate-spin' />}
+                  Actualizar Usuario
                 </Button>
               </DialogFooter>
             </form>
