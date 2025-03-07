@@ -19,6 +19,14 @@ export const useUsers = () => {
       otp: { code: string; expiresAt: Date; user_id: string; token: string }
     }
   }
+  const postUserPublic = async (user: NewUser) => {
+    const { data } = await axios.post('/api/auth/create-account', user)
+
+    return data as {
+      message: string
+      otp: { code: string; expiresAt: Date; user_id: string; token: string }
+    }
+  }
   const putUser = async (user: User) => {
     const { data } = await axios.put(`/api/protected/users`, user)
 
@@ -30,5 +38,5 @@ export const useUsers = () => {
     return data
   }
 
-  return { getUsers, getUser, postUser, putUser, deleteUser }
+  return { getUsers, getUser, postUser, putUser, deleteUser, postUserPublic }
 }

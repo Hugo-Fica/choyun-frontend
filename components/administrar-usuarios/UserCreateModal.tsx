@@ -50,6 +50,7 @@ export function UserCreateModal() {
   const role = useUserAuthStore((state) => state.user?.role)
   const queryCLient = useQueryClient()
   const [open, setOpen] = useState(false)
+  const [sendMail, setSendMail] = useState(false)
   const [openDatePicker, setOpenDatePicker] = useState(false)
   const roles = useRolesStore((state) => state.roles)
   const { postUser } = useUsers()
@@ -89,6 +90,7 @@ export function UserCreateModal() {
 
     if (isPosted) {
       toast.success('Usuario creado exitosamente')
+      setSendMail(true)
       const { succes } = await sendOtpMail(
         `${newUser.names} ${newUser.lastnames}`,
         newUser.email,
@@ -101,6 +103,7 @@ export function UserCreateModal() {
       } else {
         toast.error('Error al enviar el código de verificación')
       }
+      setSendMail(false)
       form.reset()
       setOpen(false)
     } else {
@@ -292,8 +295,8 @@ export function UserCreateModal() {
               <DialogFooter className=''>
                 <Button
                   className='mt-3 bg-green-500 hover:bg-green-700'
-                  disabled={isPending}>
-                  {isPending && <Loader2 className='animate-spin' />}
+                  disabled={isPending || sendMail}>
+                  {(isPending || sendMail) && <Loader2 className='animate-spin' />}
                   Crear Usuario
                 </Button>
               </DialogFooter>

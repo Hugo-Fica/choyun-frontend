@@ -4,28 +4,6 @@ import dayjs from 'dayjs'
 import { generateOTP } from '@/utils/otp'
 import { generarToken } from '@/utils/auth'
 
-export async function GET() {
-  try {
-    const usuarios = await prisma.users.findMany({
-      include: { role: { select: { name: true } } }
-    })
-    if (usuarios.length < 1) return NextResponse.json({ message: 'No se encontraron usuarios' })
-    const usuariosFinal = usuarios.map(({ password, role_id, ...u }) => {
-      const adjustedDate = dayjs(u?.birthday).add(4, 'hour')
-      const formattedBirthday = adjustedDate.format('DD/MM/YYYY')
-      return {
-        ...u,
-        role: u.role?.name,
-        birthday: formattedBirthday
-      }
-    })
-    return NextResponse.json({ usuarios: usuariosFinal })
-  } catch (error) {
-    console.error(error)
-    return NextResponse.json({ error: 'Hubo un error' }, { status: 500 })
-  }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { email, names, lastnames, age, phone, role_id, birthday } = await req.json()
@@ -69,29 +47,5 @@ export async function POST(req: NextRequest) {
     }
   } catch (error) {
     return NextResponse.json({ error: 'Hubo un error' }, { status: 500 })
-  }
-}
-
-export async function PUT(req: NextRequest) {
-  try {
-    const { id, email, names, lastnames, phone, role, age } = await req.json()
-    if (!id) {
-      return NextResponse.json(
-        { message: 'Error no se proporciono el id del usuario' },
-        { status: 400 }
-      )
-    }
-    const existeUsuario = await prisma.users.findFirst({ where: { id } })
-    if (!existeUsuario) return NextResponse.json({ message: 'No existe el usuario' })
-
-    const editarUsuario = await prisma?.users.update({
-      where: { id },
-      data: { email, names, lastnames, phone, role_id: role, age }
-    })
-
-    if (!editarUsuario) return NextResponse.json({ message: 'No se pudo actualizar el usuario' })
-    if (editarUsuario) return NextResponse.json({ message: 'Se actualizo el usuario' })
-  } catch (error) {
-    return NextResponse.json({ message: 'Hubo un error', error: error }, { status: 500 })
   }
 }
