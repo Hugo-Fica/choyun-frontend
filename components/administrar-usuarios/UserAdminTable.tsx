@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-import { ArrowUpDown, ChevronDown, Pencil, Trash } from 'lucide-react'
+import { ArrowUpDown, ChevronDown, Loader2, Pencil, Send, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -43,18 +43,21 @@ import { UserDeleteModal } from './UserDeleteModal'
 import { UserEditModal } from './UserEditModal'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 import { useUserAuthStore } from '@/store/userAuthStore'
+import { toast } from 'sonner'
+import { sendOtpMail } from '@/utils/emails'
 
 export const UserAdminTable = () => {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const [sendMail, setSendMail] = useState(false)
   const [idUser, setIdUser] = useState('')
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
   const role = useUserAuthStore((state) => state.user?.role)
-
-  const { getUsers, getUser } = useUsers()
+  const userId = useUserAuthStore((state) => state.user_id)
+  const { getUsers, getUser, reSendOtp } = useUsers()
   const { getRoles } = useRoles()
   const setUsers = useUserStore((state) => state.setUsers)
   const users = useUserStore((state) => state.users)
@@ -75,7 +78,34 @@ export const UserAdminTable = () => {
     mutationFn: getUser
   })
 
-  // Columnas de la tabla
+  const { mutateAsync: reSendOtpAsync, isPending: isPendingReSendOtp } = useMutation({
+    mutationKey: ['reSendOtp'],
+    mutationFn: reSendOtp
+  })
+
+  const reSendMail = async (userId: string, names: string, lastnames: string, email: string) => {
+    const resendOtp = await reSendOtpAsync(userId)
+    if (resendOtp) {
+      toast.success('Codigo de verificación creado exitosamente')
+      setSendMail(true)
+      const { succes } = await sendOtpMail(
+        `${names} ${lastnames}`,
+        email,
+        '05:00',
+        resendOtp.otp.code,
+        resendOtp.otp.token
+      )
+      if (succes) {
+        toast.success('Se envió el código de verificación')
+      } else {
+        toast.error('Error al enviar el código de verificación')
+      }
+      setSendMail(false)
+    } else {
+      toast.error('Error al generar el código de verificación')
+    }
+  }
+
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'names',
@@ -152,6 +182,24 @@ export const UserAdminTable = () => {
           <Button
             variant='ghost'
             size='icon'
+            className={`${!!row.original.valid && 'hidden'} ${sendMail || (isPendingReSendOtp && 'cursor-not-allowed')}`}
+            disabled={sendMail || isPendingReSendOtp}
+            onClick={async () => {
+              const { id, names, lastnames, email } = row.original
+              await reSendMail(id, names, lastnames, email)
+            }}>
+            {sendMail || isPendingReSendOtp ? (
+              <Loader2 className='animate-spin text-blue-600' />
+            ) : (
+              <Send
+                size={16}
+                className='text-blue-600'
+              />
+            )}
+          </Button>
+          <Button
+            variant='ghost'
+            size='icon'
             disabled={role?.includes('user')}
             onClick={async () => {
               await getUserAsync(row.original.id)
@@ -166,14 +214,15 @@ export const UserAdminTable = () => {
           <Button
             variant='ghost'
             size='icon'
-            disabled={role?.includes('user')}
+            disabled={row.original.id === userId || role?.includes('user')}
+            className={`${row.original.id === userId || (role?.includes('user') && 'opacity-50 cursor-not-allowed')} `}
             onClick={() => {
               setIdUser(row.original.id)
               setDeleteOpen(true)
             }}>
             <Trash
               size={16}
-              className='text-red-600'
+              className={`${row.original.id === userId && 'text-opacity-50'} text-red-600 `}
             />
           </Button>
         </div>
