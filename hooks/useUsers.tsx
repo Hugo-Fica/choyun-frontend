@@ -27,6 +27,21 @@ export const useUsers = () => {
       otp: { code: string; expiresAt: Date; user_id: string; token: string }
     }
   }
+  const reSendOtp = async (user_id: string) => {
+    const { data } = await axios.post(`/api/protected/users/send-otp/${user_id}`)
+
+    return data as {
+      message: string
+      otp: {
+        id: string
+        code: string
+        expiresAt: string
+        createAt: string
+        user_id: string
+        token: string
+      }
+    }
+  }
   const putUser = async (user: User) => {
     const { data } = await axios.put(`/api/protected/users`, user)
 
@@ -38,5 +53,5 @@ export const useUsers = () => {
     return data
   }
 
-  return { getUsers, getUser, postUser, putUser, deleteUser, postUserPublic }
+  return { getUsers, getUser, postUser, putUser, deleteUser, postUserPublic, reSendOtp }
 }
