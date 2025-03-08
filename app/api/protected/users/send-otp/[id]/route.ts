@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
-
+    console.log(id)
     const expiresAt = dayjs().add(5, 'minute').toDate()
     const existsUser = await prisma?.users.findFirst({ where: { id } })
     if (existsUser) {
