@@ -38,14 +38,15 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
-    const existeUsuario = await prisma.users.findFirst({ where: { email } })
+    const emailString = String(email).trim().toLocaleLowerCase()
+    const existeUsuario = await prisma.users.findFirst({ where: { email:emailString } })
     if (existeUsuario)
       return NextResponse.json({ message: 'El correo electrónico ya se encuentra registrado' })
 
     const expiresAt = dayjs().add(5, 'minute').toDate()
     const nuevoUsuario = await prisma?.users.create({
       data: {
-        email,
+        email:emailString,
         names,
         lastnames,
         age,
