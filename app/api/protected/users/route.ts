@@ -21,7 +21,6 @@ export async function GET() {
     })
     return NextResponse.json({ usuarios: usuariosFinal })
   } catch (error) {
-    console.error(error)
     return NextResponse.json({ error: 'Hubo un error' }, { status: 500 })
   }
 }
@@ -39,20 +38,21 @@ export async function POST(req: NextRequest) {
       )
     }
     const emailString = String(email).trim().toLocaleLowerCase()
-    const existeUsuario = await prisma.users.findFirst({ where: { email:emailString } })
+    const existeUsuario = await prisma.users.findFirst({ where: { email: emailString } })
     if (existeUsuario)
       return NextResponse.json({ message: 'El correo electrónico ya se encuentra registrado' })
 
     const expiresAt = dayjs().add(5, 'minute').toDate()
     const nuevoUsuario = await prisma?.users.create({
       data: {
-        email:emailString,
+        email: emailString,
         names,
         lastnames,
         age,
         phone,
         role_id,
-        birthday: new Date(birthday)
+        birthday: new Date(birthday),
+        updatedAt: new Date()
       }
     })
     if (nuevoUsuario) {
