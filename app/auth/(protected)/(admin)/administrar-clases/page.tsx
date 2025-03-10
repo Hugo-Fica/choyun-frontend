@@ -1,12 +1,5 @@
-export default function AdministrarClases(){
+import { CalendarPrincipal } from '@/components/administrar-clases/calendar/CalendarPrincipal'
 
-    // primero mostrar calendario
-    // crear modales para clases
-    // asignar usuarios para clases
-    // enviar correos con sus horarios
-    return(
-        <div>
-            <span></span>
-        </div>
-    )
+export default function AdministrarClases() {
+  return <CalendarPrincipal />
 }
